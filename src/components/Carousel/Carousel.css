@@ -1,0 +1,19 @@
+@import url("https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap");
+
+.immagine {
+  height: 30em;
+  object-fit: cover;
+  filter: brightness(50%);
+}
+
+.title {
+  font-family: "Oswald", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 700;
+  font-size: 5rem;
+}
+
+.paragraph {
+  font-family: "Oswald", sans-serif;
+  font-optical-sizing: auto;
+}
