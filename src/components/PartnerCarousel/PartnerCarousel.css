@@ -1,0 +1,10 @@
+.carousel-item img {
+  max-height: 100px;
+  object-fit: contain;
+}
+
+.carousel-caption h3 {
+  padding: 10px;
+  border-radius: 5px;
+  color: #fff;
+}

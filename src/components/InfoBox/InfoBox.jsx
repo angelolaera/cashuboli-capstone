@@ -15,29 +15,29 @@ function InfoBox() {
       <h1 className="titleInfo text-center mt-5">SCOPRICI</h1>
       <Row className="mt-5">
         <Col xs={12} sm={4} className="text-center position-relative">
-          <img src={Logo} alt="Immagine 1" className="box" />
+          <img src={Logo} alt="Immagine 1" className="box border rounded" />
           <div className="overlay-text">PERCHÈ CASHUBOLI</div>
         </Col>
         <Col xs={12} sm={4} className="text-center position-relative">
-          <img src={Flotta} alt="Immagine 2" className="box" />
+          <img src={Flotta} alt="Immagine 2" className="box border rounded" />
           <div className="overlay-text">SCOPRI LA FLOTTA DELLE NOSTRE BICI</div>
         </Col>
         <Col xs={12} sm={4} className="text-center position-relative">
-          <img src={Percorso} alt="Immagine 3" className="box" />
+          <img src={Percorso} alt="Immagine 3" className="box border rounded" />
           <div className="overlay-text">TOUR E PERCORSI</div>
         </Col>
       </Row>
       <Row className="mt-3">
         <Col xs={12} sm={4} className="text-center position-relative">
-          <img src={Mosaico} alt="Immagine 4" className="box" />
+          <img src={Mosaico} alt="Immagine 4" className="box border rounded" />
           <div className="overlay-text">GALLERY</div>
         </Col>
         <Col xs={12} sm={4} className="text-center position-relative">
-          <img src={Blog} alt="Immagine 5" className="box" />
+          <img src={Blog} alt="Immagine 5" className="box border rounded" />
           <div className="overlay-text">BLOG</div>
         </Col>
         <Col xs={12} sm={4} className="text-center position-relative">
-          <img src={Progetta} alt="Immagine 6" className="box" />
+          <img src={Progetta} alt="Immagine 6" className="box border rounded" />
           <div className="overlay-text">PROGETTA CON NOI!</div>
         </Col>
       </Row>
