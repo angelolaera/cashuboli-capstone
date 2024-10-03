@@ -1,3 +1,10 @@
 .navbar {
   background-color: #590f18;
 }
+
+.headerParagraph {
+  font-family: "Sanchez", serif;
+  font-weight: 400;
+  font-style: normal;
+  margin: 0;
+}

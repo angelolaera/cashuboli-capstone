@@ -11,13 +11,27 @@ function BarraNavigazione() {
           <img src={Logo} alt="logo" className="logo_cashuboli me-2" /> <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="me-auto">
-              <Nav.Link href="#home">Home</Nav.Link>
-              <Nav.Link href="#home">Chi Siamo</Nav.Link>
-              <Nav.Link href="#home">Bici</Nav.Link>
-              <Nav.Link href="#home">Tour Masserie</Nav.Link>
-              <Nav.Link href="#home">Noleggio</Nav.Link>
-              <Nav.Link href="#home">Gallery</Nav.Link>
-              <Nav.Link href="#home">Contattaci</Nav.Link>
+              <Nav.Link href="#home">
+                <p className="navbarParagraph">Home</p>
+              </Nav.Link>
+              <Nav.Link href="#home">
+                <p className="navbarParagraph">Chi Siamo</p>
+              </Nav.Link>
+              <Nav.Link href="#home">
+                <p className="navbarParagraph">Bici</p>
+              </Nav.Link>
+              <Nav.Link href="#home">
+                <p className="navbarParagraph">Tour Masserie</p>
+              </Nav.Link>
+              <Nav.Link href="#home">
+                <p className="navbarParagraph">Noleggio</p>
+              </Nav.Link>
+              <Nav.Link href="#home">
+                <p className="navbarParagraph">Gallery</p>
+              </Nav.Link>
+              <Nav.Link href="#home">
+                <p className="navbarParagraph">Contattaci</p>
+              </Nav.Link>
             </Nav>
           </Navbar.Collapse>
         </div>

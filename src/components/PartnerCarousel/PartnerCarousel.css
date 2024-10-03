@@ -1,4 +1,6 @@
-.carousel-item img {
+@import url("https://fonts.googleapis.com/css2?family=Sanchez:ital@0;1&display=swap");
+
+.partnerCarousel img {
   max-height: 100px;
   object-fit: contain;
 }
@@ -7,4 +9,15 @@
   padding: 10px;
   border-radius: 5px;
   color: #fff;
+}
+
+.partnerTitle {
+  font-family: "Sanchez", serif;
+  font-weight: 400;
+  font-style: normal;
+  color: #590f18;
+}
+
+.divisoryLine {
+  color: #590f18;
 }

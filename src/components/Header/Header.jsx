@@ -4,19 +4,19 @@ function Header() {
   return (
     <Navbar className="navbar d-flex justify-content-between">
       <Container>
-        <Navbar.Brand className="text-white fs-6">
+        <Navbar.Brand className="d-flex text-white fs-6">
           <i className="bi bi-geo-alt-fill pe-1"></i>
-          Via Europa - 70015 Noci (BA)
+          <p className="headerParagraph">Zona A 46 - 70015 Noci (BA)</p>
         </Navbar.Brand>
 
-        <Navbar.Brand className="text-white fs-6">
+        <Navbar.Brand className="d-flex text-white fs-6">
           <i className="bi bi-telephone-fill pe-1"></i>
-          +39 333 333 3333
+          <p className="headerParagraph">+39 331 340 3596 </p>
         </Navbar.Brand>
 
-        <Navbar.Brand className="text-white fs-6">
+        <Navbar.Brand className="d-flex text-white fs-6">
           <i className="bi bi-envelope-at-fill pe-1"></i>
-          info@cashuboli.com
+          <p className="headerParagraph">info@cashuboli.it</p>
         </Navbar.Brand>
       </Container>
     </Navbar>

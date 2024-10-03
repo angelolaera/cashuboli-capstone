@@ -11,7 +11,7 @@ import "./InfoBox.css";
 
 function InfoBox() {
   return (
-    <Container>
+    <Container className="mb-5">
       <h1 className="titleInfo text-center mt-5">SCOPRICI</h1>
       <Row className="mt-5">
         <Col xs={12} sm={4} className="text-center position-relative">
@@ -33,12 +33,12 @@ function InfoBox() {
           <div className="overlay-text">GALLERY</div>
         </Col>
         <Col xs={12} sm={4} className="text-center position-relative">
-          <img src={Blog} alt="Immagine 5" className="box border rounded" />
-          <div className="overlay-text">BLOG</div>
-        </Col>
-        <Col xs={12} sm={4} className="text-center position-relative">
           <img src={Progetta} alt="Immagine 6" className="box border rounded" />
           <div className="overlay-text">PROGETTA CON NOI!</div>
+        </Col>
+        <Col xs={12} sm={4} className="text-center position-relative">
+          <img src={Blog} alt="Immagine 5" className="box border rounded" />
+          <div className="overlay-text">BLOG</div>
         </Col>
       </Row>
     </Container>
