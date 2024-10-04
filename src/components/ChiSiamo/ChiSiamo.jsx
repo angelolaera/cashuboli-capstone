@@ -14,9 +14,15 @@ function ChiSiamo() {
             <img src={Mirko} alt="Mirko Foto" className="bordo rounded-circle" />
             <div className="mt-1">
               {" "}
-              <img src={Facebook} alt="Mirko Foto" className="" />
-              <img src={Instagram} alt="Mirko Foto" className="" />
-              <img src={TikTok} alt="Mirko Foto" className="" />
+              <a href="https://www.facebook.com/mirko.deleonardis.7?locale=it_IT">
+                <img src={Facebook} alt="Mirko Foto" className="" />
+              </a>
+              <a href="https://www.instagram.com/zonaa46/">
+                <img src={Instagram} alt="Mirko Foto" className="" />
+              </a>
+              <a href="https://www.tiktok.com/login?redirect_url=https%3A%2F%2Fwww.tiktok.com%2Fit-IT%2F&lang=en&enter_method=mandatory">
+                <img src={TikTok} alt="Mirko Foto" className="" />
+              </a>
             </div>
           </div>
         </Col>
