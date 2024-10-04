@@ -2,6 +2,7 @@ import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import Logo from "../asset/img/logo.png";
+import { Link } from "react-router-dom";
 
 function BarraNavigazione() {
   return (
@@ -11,12 +12,12 @@ function BarraNavigazione() {
           <img src={Logo} alt="logo" className="logo_cashuboli me-2" /> <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="me-auto">
-              <Nav.Link href="#home">
+              <Link to="/" className="nav-link">
                 <p className="navbarParagraph">Home</p>
-              </Nav.Link>
-              <Nav.Link href="#home">
+              </Link>
+              <Link to="/chisiamo" className="nav-link">
                 <p className="navbarParagraph">Chi Siamo</p>
-              </Nav.Link>
+              </Link>
               <Nav.Link href="#home">
                 <p className="navbarParagraph">Bici</p>
               </Nav.Link>
