@@ -18,10 +18,10 @@ function BarraNavigazione() {
               <Link to="/chisiamo" className="nav-link">
                 <p className="navbarParagraph">Chi Siamo</p>
               </Link>
-              <Nav.Link href="#home">
+              <Nav.Link href="/bici">
                 <p className="navbarParagraph">Bici</p>
               </Nav.Link>
-              <Nav.Link href="#home">
+              <Nav.Link href="./tourmasserie">
                 <p className="navbarParagraph">Tour Masserie</p>
               </Nav.Link>
               <Nav.Link href="#home">

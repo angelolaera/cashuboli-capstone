@@ -1,0 +1,25 @@
+.footertitle {
+  font-family: "Oswald", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 700;
+  font-size: 2rem;
+  color: #590f18;
+}
+
+.btn-primary {
+  background-color: #590f18 !important;
+  border: #590f18 !important;
+}
+
+.footerbutton {
+  background-color: #590f18 !important;
+  border: #590f18;
+}
+
+.footerbutton:hover {
+  background-color: #590f18;
+}
+
+.footerbanner {
+  width: 500px;
+}

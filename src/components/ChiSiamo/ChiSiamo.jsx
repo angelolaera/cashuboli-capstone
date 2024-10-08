@@ -20,7 +20,7 @@ function ChiSiamo() {
               <a href="https://www.instagram.com/zonaa46/">
                 <img src={Instagram} alt="Mirko Foto" className="" />
               </a>
-              <a href="https://www.tiktok.com/login?redirect_url=https%3A%2F%2Fwww.tiktok.com%2Fit-IT%2F&lang=en&enter_method=mandatory">
+              <a href="https://www.tiktok.com/login?redirect_url=https%3A%2F%2Fwww.tiktok.com%2Fit-IT%2F&lang=en&enter_method=mandatorynpm">
                 <img src={TikTok} alt="Mirko Foto" className="" />
               </a>
             </div>
@@ -30,7 +30,7 @@ function ChiSiamo() {
           <div>
             <h1 className="chisiamo_title">CASHUBOLI, NEL CUORE DELLA PUGLIA</h1>
             <br />
-            <p className="chisiamo_paragraph">
+            <p className="chisiamo_paragraph mb-3">
               Benvenuti nel mondo di Cashuboli, dove il viaggio diventa un’esperienza inclusiva e indimenticabile. Fondata nel 2023 da Mirko De Leonardis,
               questa realtà pugliese prende il suo nome dalla storica contrada Casabolicchio di Noci, luogo in cui sorge la nostra impresa. In questo piccolo
               angolo di Puglia, immerso tra natura incontaminata e tradizioni millenarie, nasce Cashuboli, un progetto che ha l’ambizione di diventare un punto
@@ -70,9 +70,6 @@ function ChiSiamo() {
           </div>
         </Col>
       </Row>
-      <div className="text-center mt-5">
-        <p className="chisiamo_paragraph fs-6">Copyright© 2024 Angelo Laera </p>
-      </div>
     </Container>
   );
 }

@@ -1,14 +1,13 @@
 import React from "react";
 import { Carousel, Container, Row, Col } from "react-bootstrap";
-import "bootstrap/dist/css/bootstrap.min.css";
 
 const PartnerCarousel = () => {
   return (
     <Container className="text-center my-4">
       <hr className="divisoryLine" />
       <h2 className="partnerTitle">Partners di Cashuboli</h2>
-      <Carousel className="mt-4">
-        <Carousel.Item>
+      <Carousel className="mt-3">
+        <Carousel.Item className="mb-3">
           <Row className="d-flex justify-content-center align-items-center">
             <Col xs={6} md={2}>
               <a href="https://www.regione.puglia.it/" target="_blank" rel="noopener noreferrer">
@@ -54,7 +53,6 @@ const PartnerCarousel = () => {
           </Row>
         </Carousel.Item>
       </Carousel>
-      <hr className="divisoryLine" />
     </Container>
   );
 };

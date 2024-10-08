@@ -1,0 +1,15 @@
+.tourbutton {
+  background-color: #590f18 !important;
+}
+
+.priceBadge {
+  background-color: #590f18 !important;
+}
+
+h2 {
+  font-family: "Oswald", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 700;
+  font-size: 3rem;
+  color: #590f18 !important;
+}
