@@ -17,7 +17,7 @@ function TourMasserie() {
               <Card.Title className="cardtitle">Scoprire la Valle D'Itria</Card.Title>
               <Card.Text className="biciParagraph">3,5H - Gruppo Ristretto</Card.Text>
               <div className="d-flex align-items-center justify-content-between">
-                <Link to="/tourmasserie/tourvalleditria">
+                <Link to="/tourvalleditria">
                   <Button className="mt-3">Dettagli</Button>
                 </Link>
                 <Badge className="priceBadge ms-auto mt-3">€55,00</Badge>
@@ -32,7 +32,7 @@ function TourMasserie() {
               <Card.Title className="cardtitle">Alberobello tutto intorno: Masserie e Trulli</Card.Title>
               <Card.Text className="biciParagraph">5H - Gruppo Ristretto - Prelievo disponibile</Card.Text>
               <div className="d-flex align-items-center justify-content-between">
-                <Link to="/tourmasserie/dettagli">
+                <Link to="/touralberobello">
                   <Button className="mt-3">Dettagli</Button>
                 </Link>
                 <Badge className="priceBadge ms-auto mt-3">€50,00</Badge>

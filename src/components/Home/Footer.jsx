@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Button, Col, Container, Form, InputGroup, Row } from "react-bootstrap";
-import FooterBanner from "../asset/img/footerbanner.jpg";
+import FooterBanner from "../../asset/img/footerbanner.jpg";
 
 function Footer() {
   const [email, setEmail] = useState("");

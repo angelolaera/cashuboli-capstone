@@ -1,7 +1,7 @@
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
-import Logo from "../asset/img/logo.png";
+import Logo from "../../asset/img/logo.png";
 import { Link } from "react-router-dom";
 
 function BarraNavigazione() {

@@ -1,7 +1,7 @@
 import Carousel from "react-bootstrap/Carousel";
-import Carosello1 from "../asset/img/Carosello1.jpg";
-import Carosello2 from "../asset/img/Carosello2.png";
-import funtogo from "../asset/img/Fun_2_go.jpg";
+import Carosello1 from "../../asset/img/Carosello1.jpg";
+import Carosello2 from "../../asset/img/Carosello2.png";
+import funtogo from "../../asset/img/Fun_2_go.jpg";
 
 function UncontrolledCarousel() {
   return (

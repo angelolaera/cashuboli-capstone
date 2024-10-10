@@ -1,9 +1,9 @@
 import "./ChiSiamo.css";
 import { Col, Container, Row } from "react-bootstrap";
-import Mirko from "../asset/img/Mirko.jpg";
-import Facebook from "../asset/img/facebook.png";
-import Instagram from "../asset/img/instagram.png";
-import TikTok from "../asset/img/tiktok.png";
+import Mirko from "../../asset/img/Mirko.jpg";
+import Facebook from "../../asset/img/facebook.png";
+import Instagram from "../../asset/img/instagram.png";
+import TikTok from "../../asset/img/tiktok.png";
 
 function ChiSiamo() {
   return (

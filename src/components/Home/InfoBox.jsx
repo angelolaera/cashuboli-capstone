@@ -1,12 +1,12 @@
 import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
-import Flotta from "../asset/img/flotta.png";
-import Logo from "../asset/img/logo.png";
-import Percorso from "../asset/img/percorso.png";
-import Mosaico from "../asset/img/gallery.png";
-import Blog from "../asset/img/blog.png";
-import Progetta from "../asset/img/progetta.png";
+import Flotta from "../../asset/img/flotta.png";
+import Logo from "../../asset/img/logo.png";
+import Percorso from "../../asset/img/percorso.png";
+import Mosaico from "../../asset/img/gallery.png";
+import Blog from "../../asset/img/blog.png";
+import Progetta from "../../asset/img/progetta.png";
 import "./InfoBox.css";
 
 function InfoBox() {
