@@ -11,6 +11,7 @@ import Bici from "./components/Bici/Bici";
 import TourMasserie from "./components/Tour/TourMasserie";
 import TourValleDitria from "./components/Tour/TourValleDitria";
 import TourAlberobello from "./components/Tour/TourAlberobello";
+import TourBooking from "./components/CalendarioBooking/TourBooking";
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
           <Route path="/tourmasserie" element={<TourMasserie />} />
           <Route path="/tourvalleditria" element={<TourValleDitria />} />
           <Route path="/touralberobello" element={<TourAlberobello />} />
+          <Route path="/tourbooking" element={<TourBooking />} />
         </Routes>
         <p className="copyrightAngelo text-center">© Copyright - Angelo Laera</p>
       </>

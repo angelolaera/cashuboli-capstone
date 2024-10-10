@@ -24,8 +24,8 @@ function BarraNavigazione() {
               <Nav.Link href="./tourmasserie">
                 <p className="navbarParagraph">Tour Masserie</p>
               </Nav.Link>
-              <Nav.Link href="#home">
-                <p className="navbarParagraph">Noleggio</p>
+              <Nav.Link href="./tourbooking">
+                <p className="navbarParagraph">Booking</p>
               </Nav.Link>
               <Nav.Link href="#home">
                 <p className="navbarParagraph">Gallery</p>
