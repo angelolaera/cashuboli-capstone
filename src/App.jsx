@@ -26,7 +26,8 @@ function App() {
           <Route path="/tourmasserie" element={<TourMasserie />} />
           <Route path="/tourvalleditria" element={<TourValleDitria />} />
           <Route path="/touralberobello" element={<TourAlberobello />} />
-          <Route path="/tourbooking" element={<TourBooking />} />
+          <Route path="/checkoutpage" element={< />} />
+
         </Routes>
         <p className="copyrightAngelo text-center">© Copyright - Angelo Laera</p>
       </>

@@ -1,17 +1,19 @@
-/* Stili di base per rendere l'interfaccia pulita e semplice */
 .tour-booking {
   text-align: center;
-  font-family: Arial, sans-serif;
+  font-family: Oswald;
   color: #ffffff;
 }
 
-h2 {
+h2,
+.tourbookingP,
+.label-option-value,
+.booking-details {
   color: #590f18;
 }
 
 .calendar {
   width: 100%;
-  max-width: 600px;
+  max-width: 500px;
   margin: 20px auto;
   border-collapse: collapse;
 }
@@ -19,8 +21,7 @@ h2 {
 .calendar th,
 .calendar td {
   border: 1px solid #590f18;
-  width: 14.28%;
-  height: 80px;
+  height: 50px;
   text-align: center;
   vertical-align: middle;
 }
@@ -60,9 +61,33 @@ h2 {
   color: #ffffff;
 }
 
-.booking-details {
-  margin-top: 20px;
-  color: #590f18;
+.bikes-selection,
+.percorso-selection {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+.bike-option,
+.percorso-option {
+  text-align: center;
+  cursor: pointer;
+  padding: 10px;
+  transition: transform 0.3s, border 0.3s;
+}
+
+.bike-option img,
+.percorso-option img {
+  width: 100px;
+  height: auto;
+}
+
+.bike-option:focus,
+.bike-option:active,
+.percorso-option:focus,
+.percorso-option:active {
+  transform: scale(1.5);
 }
 
 .confirm-button {
@@ -71,4 +96,9 @@ h2 {
   color: #ffffff;
   border: none;
   cursor: pointer;
+}
+
+.bike-option.selected,
+.percorso-option.selected {
+  transform: scale(1.5);
 }

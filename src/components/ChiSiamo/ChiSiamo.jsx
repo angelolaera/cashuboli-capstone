@@ -7,7 +7,7 @@ import TikTok from "../../asset/img/tiktok.png";
 
 function ChiSiamo() {
   return (
-    <Container>
+    <Container className="chisiamo-container">
       <Row className="mt-5 ">
         <Col xs={6} className="d-flex justify-content-center">
           <div className="text-center">
