@@ -1,9 +1,12 @@
 import React, { useState } from "react";
 import { addDays, format, startOfMonth, endOfMonth, startOfWeek, endOfWeek } from "date-fns";
+import { useNavigate } from "react-router-dom";
 import "./TourBooking.css";
 import { Col, Container, Row } from "react-bootstrap";
 
 const TourBooking = () => {
+  const navigate = useNavigate(); // Hook per la navigazione
+
   // Stato per la data selezionata, bicicletta e percorso
   const [dataSelezionata, setDataSelezionata] = useState(null);
   const [biciclettaSelezionata, setBiciclettaSelezionata] = useState("");
@@ -20,6 +23,21 @@ const TourBooking = () => {
     } else {
       alert("Puoi prenotare solo a partire dai prossimi tre giorni.");
     }
+  };
+
+  // Funzione per navigare alla pagina del carrello
+  const confermaPrenotazione = () => {
+    // Formatta la data prima di passare alla pagina del checkout
+    const dataFormattata = dataSelezionata ? format(dataSelezionata, "dd MMMM yyyy") : "";
+
+    // Passa i dati selezionati alla pagina del checkout tramite lo stato
+    navigate("/checkoutpage", {
+      state: {
+        dataSelezionata: dataFormattata, // Passa la data formattata come stringa
+        biciclettaSelezionata,
+        percorsoSelezionato,
+      },
+    });
   };
 
   // Genera un array di giorni per il layout del calendario
@@ -44,7 +62,7 @@ const TourBooking = () => {
     <Container>
       <Row className="mt-5">
         <Col xs={10}>
-          <h2 className="mt-3 text-center">PRENOTA IL TUO TOUR</h2>{" "}
+          <h2 className="mt-3 text-center">PRENOTA IL TUO TOUR</h2>
           <div className="tour-booking">
             {/* Renderizza il calendario */}
             <table className="calendar">
@@ -84,7 +102,6 @@ const TourBooking = () => {
             </table>
 
             {/* Box di selezione bicicletta e percorso */}
-
             <div className="selection-box mt-3">
               <label className="label-option-value mb-4">Scegli la tua bicicletta:</label>
               <div className="bikes-selection">
@@ -114,14 +131,14 @@ const TourBooking = () => {
                   onClick={() => setBiciclettaSelezionata("CARGO TRIKE")}
                 >
                   <img src="https://www.re-moove.it/images/bikes/cargo-trike.webp" alt="CARGO TRIKE" />
-                  <p className="tourbookingP">SIDE BY SIDE TANDEM</p>
+                  <p className="tourbookingP">CARGO TRIKE</p>
                 </div>
                 <div
                   className={`bike-option ${biciclettaSelezionata === "SPORT TRIKE" ? "selected" : ""}`}
                   onClick={() => setBiciclettaSelezionata("SPORT TRIKE")}
                 >
                   <img src="https://www.re-moove.it/images/bikes/sport-trike.webp" alt="SPORT TRIKE" />
-                  <p className="tourbookingP">WHEELCHAIR BIKE</p>
+                  <p className="tourbookingP">SPORT TRIKE</p>
                 </div>
                 <div className={`bike-option ${biciclettaSelezionata === "TANDEM" ? "selected" : ""}`} onClick={() => setBiciclettaSelezionata("TANDEM")}>
                   <img src="https://www.re-moove.it/images/bikes/tandem.webp" alt="TANDEM" />
@@ -158,7 +175,6 @@ const TourBooking = () => {
         </Col>
         <Col xs={2} className="mt-3">
           <div className="mt-3 border border-1 rounded-3 p-3">
-            {" "}
             {dataSelezionata && (
               <div className="booking-details">
                 <p className="tourbookingP">
@@ -168,7 +184,9 @@ const TourBooking = () => {
                 </p>
                 <p className="tourbookingP">Bicicletta selezionata: {biciclettaSelezionata}</p>
                 <p className="tourbookingP">Percorso selezionato: {percorsoSelezionato}</p>
-                <button className="confirm-button ">Conferma Prenotazione</button>
+                <button className="confirm-button" onClick={confermaPrenotazione}>
+                  Conferma Prenotazione
+                </button>
               </div>
             )}
           </div>
