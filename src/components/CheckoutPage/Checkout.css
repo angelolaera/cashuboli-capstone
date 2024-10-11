@@ -4,3 +4,35 @@
   font-style: normal;
   margin: 0;
 }
+
+.h3-checkout {
+  font-family: "Oswald", serif;
+  font-weight: 600;
+  font-style: normal;
+  margin: 0;
+  color: #590f18;
+}
+
+.form-group {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.form-group label {
+  font-family: "Sanchez", serif;
+  width: 120px;
+  font-size: 0.9rem;
+}
+
+.form-group input,
+.form-group textarea {
+  flex: 1;
+}
+
+.btn-checkout {
+  background-color: #590f18;
+  color: white;
+  border-radius: 10px;
+  font-family: "Sanchez", serif;
+}

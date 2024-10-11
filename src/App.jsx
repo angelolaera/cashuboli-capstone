@@ -13,6 +13,7 @@ import TourValleDitria from "./components/Tour/TourValleDitria";
 import TourAlberobello from "./components/Tour/TourAlberobello";
 import CheckoutPage from "./components/CheckoutPage/CheckOut";
 import TourBooking from "./components/CalendarioBooking/TourBooking";
+import Return from "./components/Return/Return";
 
 function App() {
   return (
@@ -28,7 +29,8 @@ function App() {
           <Route path="/tourvalleditria" element={<TourValleDitria />} />
           <Route path="/touralberobello" element={<TourAlberobello />} />
           <Route path="/tourbooking" element={<TourBooking />} />
-          <Route path="/checkoutpage" element={<CheckoutPage />} />
+          <Route path="/checkout" element={<CheckoutPage />} />
+          <Route path="/return" element={<Return />} />
         </Routes>
         <p className="copyrightAngelo text-center">© Copyright - Angelo Laera</p>
       </>
