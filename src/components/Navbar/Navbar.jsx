@@ -4,33 +4,35 @@ import Navbar from "react-bootstrap/Navbar";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
+import Dropdown from "react-bootstrap/Dropdown";
 import { useState, useEffect } from "react";
 import Logo from "../../asset/img/logo.png";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function BarraNavigazione() {
   const [show, setShow] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
+  const [role, setRole] = useState("");
+  const navigate = useNavigate();
 
-  // Chiudi il modale
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  // Recupera il nome utente dal localStorage all'inizio
   useEffect(() => {
     const user = localStorage.getItem("user");
+    const role = localStorage.getItem("role");
     if (user) {
       setUsername(user);
     }
+    if (role) {
+      setRole(role);
+    }
   }, []);
 
-  // Gestisci il form di login
   const handleSubmit = async (e) => {
-    e.preventDefault(); // Previene il comportamento di default del form
-    console.log("Form submit in corso..."); // Debug, per vedere se il form viene inviato correttamente
-
+    e.preventDefault();
     try {
       const response = await fetch("http://localhost:3001/auth/login", {
         method: "POST",
@@ -45,12 +47,12 @@ function BarraNavigazione() {
 
       if (response.ok) {
         const data = await response.json();
-        console.log("Login riuscito!", data); // Debug, vedere il risultato del login
-        // Salva il token e il nome dell'utente nel localStorage
         localStorage.setItem("token", data.token);
         localStorage.setItem("user", data.username);
-        setUsername(data.username); // Aggiorna il nome dell'utente
-        handleClose(); // Chiudi il modale dopo il login
+        localStorage.setItem("role", data.role);
+        setUsername(data.username);
+        setRole(data.role);
+        handleClose();
       } else {
         console.error("Errore durante il login");
       }
@@ -59,41 +61,68 @@ function BarraNavigazione() {
     }
   };
 
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    localStorage.removeItem("role");
+    setUsername("");
+    setRole("");
+    navigate("/");
+  };
+
   return (
     <Navbar expand="lg" className="bg-white">
       <Container>
-        <Navbar.Brand className="me-auto d-flex align-items-center">
-          <img src={Logo} alt="logo" className="logo_cashuboli me-2" />
+        <Navbar.Brand href="/">
+          <img src={Logo} alt="logo" className="logo_cashuboli" />
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="me-auto d-flex align-items-center">
+          <Nav className="me-auto">
             <Link to="/" className="nav-link">
-              <p className="navbarParagraph m-0">Home</p>
+              Home
             </Link>
             <Link to="/chisiamo" className="nav-link">
-              <p className="navbarParagraph m-0">Chi Siamo</p>
+              Chi Siamo
             </Link>
-            <Nav.Link href="/bici">
-              <p className="navbarParagraph m-0">Bici</p>
-            </Nav.Link>
-            <Nav.Link href="./tourmasserie">
-              <p className="navbarParagraph m-0">Tour</p>
-            </Nav.Link>
-            <Nav.Link href="./tourbooking">
-              <p className="navbarParagraph m-0">Booking</p>
-            </Nav.Link>
-            <Nav.Link href="#home">
-              <p className="navbarParagraph m-0">Gallery</p>
-            </Nav.Link>
-            <Nav.Link href="#home">
-              <p className="navbarParagraph m-0">Contattaci</p>
-            </Nav.Link>
+            <Link to="/bici" className="nav-link">
+              Bici
+            </Link>
+            <Link to="/tourmasserie" className="nav-link">
+              Tour
+            </Link>
+            <Link to="/tourbooking" className="nav-link">
+              Booking
+            </Link>
+            <Link to="#home" className="nav-link">
+              Gallery
+            </Link>
+            <Link to="#home" className="nav-link">
+              Contattaci
+            </Link>
           </Nav>
-          <Nav className="ms-3 d-flex align-items-center">
+          <Nav className="ms-auto">
             {" "}
-            {/* Cambiato ms-auto in ms-3 per ridurre lo spazio */}
-            {username ? <p className="navbarParagraph m-0 navbarParagraph">Benvenuto, {username}</p> : <Button onClick={handleShow}>Login</Button>}
+            {username ? (
+              <Dropdown>
+                <Dropdown.Toggle variant="success" id="dropdown-basic">
+                  Benvenuto, {username}
+                </Dropdown.Toggle>
+
+                <Dropdown.Menu>
+                  {role === "ADMIN" ? (
+                    <Dropdown.Item onClick={() => navigate("/admin-dashboard")}>Dashboard Admin</Dropdown.Item>
+                  ) : (
+                    <Dropdown.Item onClick={() => navigate("/user-area")}>Area Utente</Dropdown.Item>
+                  )}
+                  <Dropdown.Item onClick={handleLogout}>Logout</Dropdown.Item>
+                </Dropdown.Menu>
+              </Dropdown>
+            ) : (
+              <Button onClick={handleShow} className="ml-auto">
+                Login
+              </Button>
+            )}
           </Nav>
         </Navbar.Collapse>
       </Container>
