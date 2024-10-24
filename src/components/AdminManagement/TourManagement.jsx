@@ -9,6 +9,7 @@ function TourManagement() {
     price: "",
     maxParticipants: "",
   });
+  const [imageFile, setImageFile] = useState(null); // Nuovo stato per il file immagine
 
   useEffect(() => {
     fetchTours();
@@ -43,7 +44,7 @@ function TourManagement() {
     fetch("http://localhost:3001/api/tours", {
       method: "POST",
       headers: {
-        Authorization: `Bearer ${token}`, // Assicurati che il token sia passato
+        Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
       },
       body: JSON.stringify(newTour),
@@ -54,9 +55,12 @@ function TourManagement() {
         }
         return response.json();
       })
-      .then(() => {
-        fetchTours();
-        // Reset del form dopo la creazione
+      .then((data) => {
+        if (imageFile) {
+          handleUploadImage(data.id); // Chiamata per caricare l'immagine associata al tour
+        } else {
+          fetchTours(); // Aggiorna la lista dei tour se non è stato caricato nessun file
+        }
         setNewTour({
           name: "",
           description: "",
@@ -67,28 +71,40 @@ function TourManagement() {
       .catch((error) => console.error("Errore nella creazione del tour:", error));
   };
 
+  // Funzione per caricare l'immagine del tour
+  const handleUploadImage = (tourId) => {
+    const token = localStorage.getItem("token");
+    const formData = new FormData();
+    formData.append("image", imageFile);
+
+    fetch(`http://localhost:3001/api/tours/${tourId}/image`, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      body: formData,
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Errore nel caricamento dell'immagine");
+        }
+        fetchTours(); // Aggiorna la lista dei tour dopo il caricamento dell'immagine
+      })
+      .catch((error) => console.error("Errore nel caricamento dell'immagine:", error));
+  };
+
   // Funzione per eliminare un tour
   const handleDeleteTour = (id) => {
     const token = localStorage.getItem("token");
 
-    if (!id) {
-      console.error("L'ID del tour è undefined o non valido.");
-      return;
-    }
-
     fetch(`http://localhost:3001/api/tours/${id}`, {
       method: "DELETE",
       headers: {
-        Authorization: `Bearer ${token}`, // Aggiungi il token JWT nell'header
+        Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
       },
     })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Errore nella cancellazione del tour");
-        }
-        fetchTours();
-      })
+      .then(() => fetchTours())
       .catch((error) => console.error("Errore nella cancellazione del tour:", error));
   };
 
@@ -112,6 +128,10 @@ function TourManagement() {
           <Form.Label>Massimo Partecipanti</Form.Label>
           <Form.Control type="number" value={newTour.maxParticipants} onChange={(e) => setNewTour({ ...newTour, maxParticipants: e.target.value })} required />
         </Form.Group>
+        <Form.Group controlId="image">
+          <Form.Label>Carica Immagine</Form.Label>
+          <Form.Control type="file" onChange={(e) => setImageFile(e.target.files[0])} />
+        </Form.Group>
         <Button type="submit" className="mt-2">
           Crea Tour
         </Button>
@@ -124,6 +144,7 @@ function TourManagement() {
             <th>Descrizione</th>
             <th>Prezzo</th>
             <th>Numero Massimo Partecipanti</th>
+            <th>Immagine</th>
             <th>Azione</th>
           </tr>
         </thead>
@@ -134,6 +155,7 @@ function TourManagement() {
               <td>{tour.description}</td>
               <td>{tour.price}</td>
               <td>{tour.maxParticipants}</td>
+              <td>{tour.imageUrl ? <img src={tour.imageUrl} alt="Tour" style={{ width: "100px" }} /> : "Nessuna Immagine"}</td>
               <td>
                 <Button variant="danger" onClick={() => handleDeleteTour(tour.id)}>
                   Elimina
