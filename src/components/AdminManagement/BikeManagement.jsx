@@ -8,6 +8,7 @@ function BikeManagement() {
     tipo: "",
     disponibilita: true,
   });
+  const [imageFile, setImageFile] = useState(null); // Nuovo stato per il file immagine
 
   useEffect(() => {
     fetchBikes();
@@ -30,12 +31,8 @@ function BikeManagement() {
         }
         return response.json();
       })
-      .then((data) => {
-        setBikes(data);
-      })
-      .catch((error) => {
-        console.error("Errore nel caricamento delle biciclette:", error);
-      });
+      .then((data) => setBikes(data))
+      .catch((error) => console.error("Errore nel caricamento delle biciclette:", error));
   };
 
   // Funzione per creare una nuova bicicletta
@@ -57,8 +54,12 @@ function BikeManagement() {
         }
         return response.json();
       })
-      .then(() => {
-        fetchBikes();
+      .then((data) => {
+        if (imageFile) {
+          handleUploadImage(data.id); // Carica l'immagine associata alla bicicletta
+        } else {
+          fetchBikes(); // Aggiorna la lista delle biciclette se non c'è nessun file
+        }
         setNewBike({
           modello: "",
           tipo: "",
@@ -66,6 +67,28 @@ function BikeManagement() {
         });
       })
       .catch((error) => console.error("Errore nella creazione della bicicletta:", error));
+  };
+
+  // Funzione per caricare l'immagine della bicicletta
+  const handleUploadImage = (bikeId) => {
+    const token = localStorage.getItem("token");
+    const formData = new FormData();
+    formData.append("image", imageFile);
+
+    fetch(`http://localhost:3001/api/biciclette/${bikeId}/image`, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      body: formData,
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Errore nel caricamento dell'immagine");
+        }
+        fetchBikes(); // Aggiorna la lista delle biciclette dopo il caricamento dell'immagine
+      })
+      .catch((error) => console.error("Errore nel caricamento dell'immagine:", error));
   };
 
   // Funzione per eliminare una bicicletta
@@ -103,8 +126,12 @@ function BikeManagement() {
             onChange={(e) => setNewBike({ ...newBike, disponibilita: e.target.checked })}
           />
         </Form.Group>
+        <Form.Group controlId="image">
+          <Form.Label>Carica Immagine</Form.Label>
+          <Form.Control type="file" onChange={(e) => setImageFile(e.target.files[0])} />
+        </Form.Group>
         <Button type="submit" className="mt-2">
-          Aggiungi Bicicletta
+          Crea Bicicletta
         </Button>
       </Form>
 
@@ -114,6 +141,7 @@ function BikeManagement() {
             <th>Modello</th>
             <th>Tipo</th>
             <th>Disponibilità</th>
+            <th>Immagine</th>
             <th>Azione</th>
           </tr>
         </thead>
@@ -123,6 +151,7 @@ function BikeManagement() {
               <td>{bike.modello}</td>
               <td>{bike.tipo}</td>
               <td>{bike.disponibilita ? "Disponibile" : "Non disponibile"}</td>
+              <td>{bike.imageUrl ? <img src={bike.imageUrl} alt="Bicicletta" style={{ width: "100px" }} /> : "Nessuna Immagine"}</td>
               <td>
                 <Button variant="danger" onClick={() => handleDeleteBike(bike.id)}>
                   Elimina
