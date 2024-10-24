@@ -1,31 +1,30 @@
-import React from "react";
+import React, { useState } from "react";
 import TourManagement from "../AdminManagement/TourManagement";
 import BikeManagement from "../AdminManagement/BikeManagement";
 import BookingManagement from "../AdminManagement/BookingManagement";
 import { Container, Tab, Tabs } from "react-bootstrap";
 
 function AdminDashboard() {
+  const [key, setKey] = useState("tour"); // Imposta la tab iniziale
+
   return (
-    <Container className="mt-4">
-      <h1>Dashboard Admin</h1>
-      <Tabs defaultActiveKey="tour" id="admin-dashboard-tabs" className="mb-3">
-        {/* Tab Gestione Tour */}
-        <Tab eventKey="tour" title="Gestione Tour">
-          <TourManagement />
-        </Tab>
+    <Container>
+      <div className="admin-page">
+        <h1 className="admin-title">Admin Dashboard</h1>
 
-        {/* Tab Gestione Biciclette */}
-        <Tab eventKey="bikes" title="Gestione Biciclette">
-          <BikeManagement />
-        </Tab>
-
-        {/* Tab Gestione Prenotazioni */}
-        <Tab eventKey="bookings" title="Gestione Prenotazioni">
-          <BookingManagement />
-        </Tab>
-      </Tabs>
+        <Tabs id="admin-tabs" activeKey={key} onSelect={(k) => setKey(k)} className="mb-3">
+          <Tab eventKey="tour" title="Gestisci Tour">
+            <TourManagement />
+          </Tab>
+          <Tab eventKey="bike" title="Gestisci Biciclette">
+            <BikeManagement />
+          </Tab>
+          <Tab eventKey="booking" title="Gestisci Prenotazioni">
+            <BookingManagement />
+          </Tab>
+        </Tabs>
+      </div>
     </Container>
   );
 }
-
 export default AdminDashboard;

@@ -31,34 +31,38 @@ function BarraNavigazione() {
     }
   }, []);
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    try {
-      const response = await fetch("http://localhost:3001/auth/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email: email,
-          password: password,
-        }),
-      });
 
-      if (response.ok) {
-        const data = await response.json();
+    fetch("http://localhost:3001/auth/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        email: email,
+        password: password,
+      }),
+    })
+      .then((response) => {
+        console.log("Stato della risposta:", response.status);
+        if (!response.ok) {
+          throw new Error(response.statusText);
+        }
+        return response.json();
+      })
+      .then((data) => {
+        console.log("Dati ricevuti dal server:", data);
         localStorage.setItem("token", data.token);
         localStorage.setItem("user", data.username);
         localStorage.setItem("role", data.role);
         setUsername(data.username);
         setRole(data.role);
         handleClose();
-      } else {
-        console.error("Errore durante il login");
-      }
-    } catch (error) {
-      console.error("Errore durante il login:", error);
-    }
+      })
+      .catch((error) => {
+        console.error("Errore durante il login:", error);
+      });
   };
 
   const handleLogout = () => {
@@ -102,7 +106,6 @@ function BarraNavigazione() {
             </Link>
           </Nav>
           <Nav className="ms-auto">
-            {" "}
             {username ? (
               <Dropdown>
                 <Dropdown.Toggle variant="success" id="dropdown-basic">

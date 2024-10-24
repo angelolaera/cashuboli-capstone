@@ -1,4 +1,3 @@
-// LoginForm.js
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Button from "react-bootstrap/Button";
@@ -10,35 +9,37 @@ function LoginForm() {
   const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
 
-    try {
-      const response = await fetch("http://localhost:3001/auth/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email: email,
-          password: password,
-        }),
-      });
-
-      if (response.ok) {
-        const data = await response.json();
+    fetch("http://localhost:3001/auth/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        email: email,
+        password: password,
+      }),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          return response.json().then((errorData) => {
+            throw new Error(errorData.message);
+          });
+        }
+        return response.json();
+      })
+      .then((data) => {
         // Salvataggio Token e Utente nel Localstorage
         localStorage.setItem("token", data.token);
         localStorage.setItem("user", data.username);
         navigate("/dashboard"); // Reindirizza alla dashboard o alla pagina desiderata
-      } else {
-        const errorData = await response.json();
-        setErrorMessage(errorData.message);
-      }
-    } catch (error) {
-      console.error("Errore durante il login:", error);
-      setErrorMessage("Errore durante il login.");
-    }
+      })
+      .catch((error) => {
+        console.error("Errore durante il login:", error);
+        setErrorMessage(error.message);
+      });
   };
 
   return (
