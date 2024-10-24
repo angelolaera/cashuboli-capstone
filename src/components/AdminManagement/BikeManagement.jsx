@@ -7,6 +7,7 @@ function BikeManagement() {
     modello: "",
     tipo: "",
     disponibilita: true,
+    descrizione: "", // Aggiungi la descrizione come parte dello stato
   });
   const [imageFile, setImageFile] = useState(null); // Nuovo stato per il file immagine
 
@@ -64,6 +65,7 @@ function BikeManagement() {
           modello: "",
           tipo: "",
           disponibilita: true,
+          descrizione: "", // Resetta anche il campo descrizione
         });
       })
       .catch((error) => console.error("Errore nella creazione della bicicletta:", error));
@@ -118,19 +120,23 @@ function BikeManagement() {
           <Form.Label>Tipo</Form.Label>
           <Form.Control type="text" value={newBike.tipo} onChange={(e) => setNewBike({ ...newBike, tipo: e.target.value })} required />
         </Form.Group>
-        <Form.Group controlId="disponibilita">
+        <Form.Group controlId="descrizione">
+          <Form.Label>Descrizione</Form.Label>
+          <Form.Control type="text" value={newBike.descrizione} onChange={(e) => setNewBike({ ...newBike, descrizione: e.target.value })} required />
+        </Form.Group>
+        <Form.Group controlId="disponibilita" className="mt-3">
           <Form.Check
             type="checkbox"
-            label="Disponibile"
+            label="Disponibilità Bicicletta"
             checked={newBike.disponibilita}
             onChange={(e) => setNewBike({ ...newBike, disponibilita: e.target.checked })}
           />
         </Form.Group>
-        <Form.Group controlId="image">
+        <Form.Group controlId="image" className="mt-3">
           <Form.Label>Carica Immagine</Form.Label>
           <Form.Control type="file" onChange={(e) => setImageFile(e.target.files[0])} />
         </Form.Group>
-        <Button type="submit" className="mt-2">
+        <Button type="submit" className="mt-3">
           Crea Bicicletta
         </Button>
       </Form>
@@ -140,6 +146,7 @@ function BikeManagement() {
           <tr>
             <th>Modello</th>
             <th>Tipo</th>
+            <th>Descrizione</th>
             <th>Disponibilità</th>
             <th>Immagine</th>
             <th>Azione</th>
@@ -150,6 +157,7 @@ function BikeManagement() {
             <tr key={bike.id}>
               <td>{bike.modello}</td>
               <td>{bike.tipo}</td>
+              <td>{bike.descrizione}</td>
               <td>{bike.disponibilita ? "Disponibile" : "Non disponibile"}</td>
               <td>{bike.imageUrl ? <img src={bike.imageUrl} alt="Bicicletta" style={{ width: "100px" }} /> : "Nessuna Immagine"}</td>
               <td>

@@ -113,26 +113,26 @@ function TourManagement() {
       <h2>Gestisci Tour</h2>
       <Form onSubmit={handleCreateTour}>
         <Form.Group controlId="name">
-          <Form.Label>Nome</Form.Label>
+          <Form.Label>Nome Tour</Form.Label>
           <Form.Control type="text" value={newTour.name} onChange={(e) => setNewTour({ ...newTour, name: e.target.value })} required />
         </Form.Group>
         <Form.Group controlId="description">
-          <Form.Label>Descrizione</Form.Label>
+          <Form.Label>Descrizione Tour</Form.Label>
           <Form.Control type="text" value={newTour.description} onChange={(e) => setNewTour({ ...newTour, description: e.target.value })} required />
         </Form.Group>
         <Form.Group controlId="price">
-          <Form.Label>Prezzo</Form.Label>
+          <Form.Label>Prezzo Tour</Form.Label>
           <Form.Control type="number" value={newTour.price} onChange={(e) => setNewTour({ ...newTour, price: e.target.value })} required />
         </Form.Group>
         <Form.Group controlId="maxParticipants">
-          <Form.Label>Massimo Partecipanti</Form.Label>
+          <Form.Label> Numero Massimo Partecipanti</Form.Label>
           <Form.Control type="number" value={newTour.maxParticipants} onChange={(e) => setNewTour({ ...newTour, maxParticipants: e.target.value })} required />
         </Form.Group>
-        <Form.Group controlId="image">
-          <Form.Label>Carica Immagine</Form.Label>
+        <Form.Group controlId="image" className="mt-2">
+          <Form.Label>Carica Immagine Copertina Tour</Form.Label>
           <Form.Control type="file" onChange={(e) => setImageFile(e.target.files[0])} />
         </Form.Group>
-        <Button type="submit" className="mt-2">
+        <Button type="submit" className="mt-3">
           Crea Tour
         </Button>
       </Form>

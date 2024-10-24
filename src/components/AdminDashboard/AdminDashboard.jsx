@@ -10,7 +10,7 @@ function AdminDashboard() {
   return (
     <Container>
       <div className="admin-page">
-        <h1 className="admin-title">Admin Dashboard</h1>
+        <h2 className="admin-title my-4">Admin Dashboard</h2>
 
         <Tabs id="admin-tabs" activeKey={key} onSelect={(k) => setKey(k)} className="mb-3">
           <Tab eventKey="tour" title="Gestisci Tour">
