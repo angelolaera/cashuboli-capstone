@@ -1,3 +1,4 @@
+import React, { useState } from "react";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
@@ -5,35 +6,29 @@ import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Dropdown from "react-bootstrap/Dropdown";
-import { useState, useEffect } from "react";
 import Logo from "../../asset/img/logo.png";
 import { Link, useNavigate } from "react-router-dom";
 
 function BarraNavigazione() {
-  const [show, setShow] = useState(false);
+  const [showLogin, setShowLogin] = useState(false);
+  const [showRegister, setShowRegister] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
   const [role, setRole] = useState("");
+  const [nome, setNome] = useState("");
+  const [cognome, setCognome] = useState("");
+  const [dataDiNascita, setDataDiNascita] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const navigate = useNavigate();
 
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+  const handleCloseLogin = () => setShowLogin(false);
+  const handleShowLogin = () => setShowLogin(true);
+  const handleCloseRegister = () => setShowRegister(false);
+  const handleShowRegister = () => setShowRegister(true);
 
-  useEffect(() => {
-    const user = localStorage.getItem("user");
-    const role = localStorage.getItem("role");
-    if (user) {
-      setUsername(user);
-    }
-    if (role) {
-      setRole(role);
-    }
-  }, []);
-
-  const handleSubmit = (e) => {
+  const handleLoginSubmit = (e) => {
     e.preventDefault();
-
     fetch("http://localhost:3001/auth/login", {
       method: "POST",
       headers: {
@@ -45,23 +40,57 @@ function BarraNavigazione() {
       }),
     })
       .then((response) => {
-        console.log("Stato della risposta:", response.status);
         if (!response.ok) {
           throw new Error(response.statusText);
         }
         return response.json();
       })
       .then((data) => {
-        console.log("Dati ricevuti dal server:", data);
         localStorage.setItem("token", data.token);
         localStorage.setItem("user", data.username);
         localStorage.setItem("role", data.role);
         setUsername(data.username);
         setRole(data.role);
-        handleClose();
+        handleCloseLogin();
       })
       .catch((error) => {
         console.error("Errore durante il login:", error);
+      });
+  };
+
+  const handleRegisterSubmit = (e) => {
+    e.preventDefault();
+    if (password !== confirmPassword) {
+      alert("Le password non corrispondono!");
+      return;
+    }
+
+    fetch("http://localhost:3001/auth/register", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        nome: nome,
+        cognome: cognome,
+        data_di_nascita: dataDiNascita,
+        email: email,
+        password: password,
+      }),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Errore durante la registrazione");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        alert("Registrazione effettuata con successo!");
+        handleCloseRegister();
+        navigate("/"); // Torna alla homepage dopo la registrazione
+      })
+      .catch((error) => {
+        console.error("Errore durante la registrazione:", error);
       });
   };
 
@@ -122,20 +151,26 @@ function BarraNavigazione() {
                 </Dropdown.Menu>
               </Dropdown>
             ) : (
-              <Button onClick={handleShow} className="ml-auto">
-                Login
-              </Button>
+              <>
+                <Button onClick={handleShowLogin} className="ml-auto">
+                  Login
+                </Button>
+                <Button onClick={handleShowRegister} className="ml-auto ms-2">
+                  Registrati
+                </Button>
+              </>
             )}
           </Nav>
         </Navbar.Collapse>
       </Container>
 
-      <Modal show={show} onHide={handleClose}>
+      {/* Modale di login */}
+      <Modal show={showLogin} onHide={handleCloseLogin}>
         <Modal.Header closeButton>
           <Modal.Title>Effettua il login!</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Form onSubmit={handleSubmit}>
+          <Form onSubmit={handleLoginSubmit}>
             <Form.Group controlId="formBasicEmail">
               <Form.Label>Email address</Form.Label>
               <Form.Control type="email" placeholder="Enter email" value={email} onChange={(e) => setEmail(e.target.value)} />
@@ -144,8 +179,57 @@ function BarraNavigazione() {
               <Form.Label>Password</Form.Label>
               <Form.Control type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
             </Form.Group>
-            <Button variant="primary" type="submit" className="mt-1">
-              Submit
+            <Button variant="primary" type="submit" className="mt-2">
+              Login
+            </Button>
+          </Form>
+        </Modal.Body>
+      </Modal>
+
+      {/* Modale di registrazione */}
+      <Modal show={showRegister} onHide={handleCloseRegister}>
+        <Modal.Header closeButton>
+          <Modal.Title>Registrati</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form onSubmit={handleRegisterSubmit}>
+            <Form.Group controlId="formNome">
+              <Form.Label>Nome</Form.Label>
+              <Form.Control type="text" placeholder="Inserisci il nome" value={nome} onChange={(e) => setNome(e.target.value)} />
+            </Form.Group>
+
+            <Form.Group controlId="formCognome" className="mt-3">
+              <Form.Label>Cognome</Form.Label>
+              <Form.Control type="text" placeholder="Inserisci il cognome" value={cognome} onChange={(e) => setCognome(e.target.value)} />
+            </Form.Group>
+
+            <Form.Group controlId="formDataDiNascita" className="mt-3">
+              <Form.Label>Data di Nascita</Form.Label>
+              <Form.Control
+                type="date"
+                placeholder="Inserisci la tua data di nascita"
+                value={dataDiNascita}
+                onChange={(e) => setDataDiNascita(e.target.value)}
+              />
+            </Form.Group>
+
+            <Form.Group controlId="formEmail" className="mt-3">
+              <Form.Label>Email</Form.Label>
+              <Form.Control type="email" placeholder="Inserisci la tua email" value={email} onChange={(e) => setEmail(e.target.value)} />
+            </Form.Group>
+
+            <Form.Group controlId="formPassword" className="mt-3">
+              <Form.Label>Password</Form.Label>
+              <Form.Control type="password" placeholder="Inserisci la password" value={password} onChange={(e) => setPassword(e.target.value)} />
+            </Form.Group>
+
+            <Form.Group controlId="formConfirmPassword" className="mt-3">
+              <Form.Label>Conferma Password</Form.Label>
+              <Form.Control type="password" placeholder="Conferma la password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} />
+            </Form.Group>
+
+            <Button variant="primary" type="submit" className="mt-3">
+              Registrati
             </Button>
           </Form>
         </Modal.Body>
