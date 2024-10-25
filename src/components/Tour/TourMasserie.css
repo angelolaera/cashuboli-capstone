@@ -14,18 +14,26 @@ h2 {
   color: #590f18 !important;
 }
 
-.ValleDitriah6 {
+.tourCardParagraph {
   font-family: "Sanchez", sans-serif;
   font-optical-sizing: auto;
   font-weight: 500;
   font-size: 1rem;
-  color: #590f18;
+  color: black;
 }
 
-.ValleDitriah5 {
+.tourCardh5 {
   font-family: "Oswald", sans-serif;
   font-optical-sizing: auto;
   font-weight: 500;
-  font-size: 3rem;
+  font-size: 1.5rem;
   color: #590f18;
+}
+
+.tourTitlePage {
+  font-family: "Oswald", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 700;
+  font-size: 4em;
+  color: #590f18 !important;
 }

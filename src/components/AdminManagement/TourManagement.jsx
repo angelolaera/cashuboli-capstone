@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Button, Form, Table } from "react-bootstrap";
+import { Button, Form, Table, Container } from "react-bootstrap";
 
 function TourManagement() {
   const [tours, setTours] = useState([]);
@@ -8,6 +8,11 @@ function TourManagement() {
     description: "",
     price: "",
     maxParticipants: "",
+    lunghezzaItinerario: "",
+    tempoMedioPercorrenza: "",
+    linguaAccoglienza: "",
+    descrizioneCompleta: "",
+    accessoriInclusi: "",
   });
   const [imageFile, setImageFile] = useState(null); // Nuovo stato per il file immagine
 
@@ -41,6 +46,11 @@ function TourManagement() {
     e.preventDefault();
     const token = localStorage.getItem("token");
 
+    if (!token) {
+      console.error("Token non presente. Esegui il login.");
+      return;
+    }
+
     fetch("http://localhost:3001/api/tours", {
       method: "POST",
       headers: {
@@ -66,6 +76,11 @@ function TourManagement() {
           description: "",
           price: "",
           maxParticipants: "",
+          lunghezzaItinerario: "",
+          tempoMedioPercorrenza: "",
+          linguaAccoglienza: "",
+          descrizioneCompleta: "",
+          accessoriInclusi: "",
         });
       })
       .catch((error) => console.error("Errore nella creazione del tour:", error));
@@ -109,9 +124,10 @@ function TourManagement() {
   };
 
   return (
-    <div>
+    <Container>
       <h2>Gestisci Tour</h2>
       <Form onSubmit={handleCreateTour}>
+        {/* Campi per creare un nuovo tour */}
         <Form.Group controlId="name">
           <Form.Label>Nome Tour</Form.Label>
           <Form.Control type="text" value={newTour.name} onChange={(e) => setNewTour({ ...newTour, name: e.target.value })} required />
@@ -125,8 +141,48 @@ function TourManagement() {
           <Form.Control type="number" value={newTour.price} onChange={(e) => setNewTour({ ...newTour, price: e.target.value })} required />
         </Form.Group>
         <Form.Group controlId="maxParticipants">
-          <Form.Label> Numero Massimo Partecipanti</Form.Label>
+          <Form.Label>Numero Massimo Partecipanti</Form.Label>
           <Form.Control type="number" value={newTour.maxParticipants} onChange={(e) => setNewTour({ ...newTour, maxParticipants: e.target.value })} required />
+        </Form.Group>
+        <Form.Group controlId="lunghezzaItinerario">
+          <Form.Label>Lunghezza Itinerario in Km</Form.Label>
+          <Form.Control
+            type="text"
+            value={newTour.lunghezzaItinerario}
+            onChange={(e) => setNewTour({ ...newTour, lunghezzaItinerario: e.target.value })}
+            required
+          />
+        </Form.Group>
+        <Form.Group controlId="tempoMedioPercorrenza">
+          <Form.Label>Tempo Medio di Percorrenza</Form.Label>
+          <Form.Control
+            type="text"
+            value={newTour.tempoMedioPercorrenza}
+            onChange={(e) => setNewTour({ ...newTour, tempoMedioPercorrenza: e.target.value })}
+            required
+          />
+        </Form.Group>
+        <Form.Group controlId="linguaAccoglienza">
+          <Form.Label>Lingua del Personale di Accoglienza</Form.Label>
+          <Form.Control
+            type="text"
+            value={newTour.linguaAccoglienza}
+            onChange={(e) => setNewTour({ ...newTour, linguaAccoglienza: e.target.value })}
+            required
+          />
+        </Form.Group>
+        <Form.Group controlId="descrizioneCompleta">
+          <Form.Label>Descrizione Completa del Tour</Form.Label>
+          <Form.Control
+            as="textarea"
+            value={newTour.descrizioneCompleta}
+            onChange={(e) => setNewTour({ ...newTour, descrizioneCompleta: e.target.value })}
+            required
+          />
+        </Form.Group>
+        <Form.Group controlId="accessoriInclusi">
+          <Form.Label>Accessori Inclusi</Form.Label>
+          <Form.Control type="text" value={newTour.accessoriInclusi} onChange={(e) => setNewTour({ ...newTour, accessoriInclusi: e.target.value })} required />
         </Form.Group>
         <Form.Group controlId="image" className="mt-2">
           <Form.Label>Carica Immagine Copertina Tour</Form.Label>
@@ -137,35 +193,45 @@ function TourManagement() {
         </Button>
       </Form>
 
-      <Table striped bordered hover className="mt-4">
-        <thead>
-          <tr>
-            <th>Nome</th>
-            <th>Descrizione</th>
-            <th>Prezzo</th>
-            <th>Numero Massimo Partecipanti</th>
-            <th>Immagine</th>
-            <th>Azione</th>
-          </tr>
-        </thead>
-        <tbody>
-          {tours.map((tour) => (
-            <tr key={tour.id}>
-              <td>{tour.name}</td>
-              <td>{tour.description}</td>
-              <td>{tour.price}</td>
-              <td>{tour.maxParticipants}</td>
-              <td>{tour.imageUrl ? <img src={tour.imageUrl} alt="Tour" style={{ width: "100px" }} /> : "Nessuna Immagine"}</td>
-              <td>
-                <Button variant="danger" onClick={() => handleDeleteTour(tour.id)}>
-                  Elimina
-                </Button>
-              </td>
+      <div className="table-responsive mt-4">
+        <Table striped bordered hover>
+          <thead>
+            <tr>
+              <th>Nome</th>
+              <th>Descrizione</th>
+              <th>Prezzo</th>
+              <th>Numero Massimo Partecipanti</th>
+              <th>Lunghezza Itinerario in Km</th>
+              <th>Tempo Medio Percorrenza</th>
+              <th>Lingua Accoglienza</th>
+              <th>Accessori Inclusi</th>
+              <th>Immagine</th>
+              <th>Azione</th>
             </tr>
-          ))}
-        </tbody>
-      </Table>
-    </div>
+          </thead>
+          <tbody>
+            {tours.map((tour) => (
+              <tr key={tour.id}>
+                <td>{tour.name}</td>
+                <td>{tour.description}</td>
+                <td>{tour.price}</td>
+                <td>{tour.maxParticipants}</td>
+                <td>{tour.lunghezzaItinerario}</td>
+                <td>{tour.tempoMedioPercorrenza}</td>
+                <td>{tour.linguaAccoglienza}</td>
+                <td>{tour.accessoriInclusi}</td>
+                <td>{tour.imageUrl ? <img src={tour.imageUrl} alt="Tour" style={{ width: "100px" }} /> : "Nessuna Immagine"}</td>
+                <td>
+                  <Button variant="danger" onClick={() => handleDeleteTour(tour.id)}>
+                    Elimina
+                  </Button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </Table>
+      </div>
+    </Container>
   );
 }
 

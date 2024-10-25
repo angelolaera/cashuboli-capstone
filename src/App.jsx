@@ -9,8 +9,6 @@ import Home from "./components/Home/Home";
 import ChiSiamo from "./components/ChiSiamo/ChiSiamo";
 import Bici from "./components/Bici/Bici";
 import TourMasserie from "./components/Tour/TourMasserie";
-import TourValleDitria from "./components/Tour/TourValleDitria";
-import TourAlberobello from "./components/Tour/TourAlberobello";
 import CheckoutPage from "./components/CheckoutPage/CheckOut";
 import TourBooking from "./components/CalendarioBooking/TourBooking";
 import Return from "./components/Return/Return";
@@ -27,8 +25,6 @@ function App() {
           <Route path="/chisiamo" element={<ChiSiamo />} />
           <Route path="/bici" element={<Bici />} />
           <Route path="/tourmasserie" element={<TourMasserie />} />
-          <Route path="/tourvalleditria" element={<TourValleDitria />} />
-          <Route path="/touralberobello" element={<TourAlberobello />} />
           <Route path="/tourbooking" element={<TourBooking />} />
           <Route path="/checkoutpage" element={<CheckoutPage />} />
           <Route path="/return" element={<Return />} />
