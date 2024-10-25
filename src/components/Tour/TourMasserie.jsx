@@ -18,7 +18,7 @@ function TourMasserie() {
     fetch("http://localhost:3001/api/tours", {
       method: "GET",
       headers: {
-        // Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
       },
     })

@@ -18,31 +18,30 @@ function TourManagement() {
 
   useEffect(() => {
     fetchTours();
+    console.log(localStorage.getItem("token"));
   }, []);
 
   // Funzione per recuperare i tour
-  const fetchTours = () => {
-    const token = localStorage.getItem("token");
-
-    fetch("http://localhost:3001/api/tours", {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-      },
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Errore nel caricamento dei tour");
-        }
-        return response.json();
-      })
-      .then((data) => setTours(data))
-      .catch((error) => console.error("Errore nel caricamento dei tour:", error));
+  const fetchTours = async () => {
+    try {
+      const response = await fetch("http://localhost:3001/api/tours", {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+      if (response.ok) {
+        const data = await response.json();
+        setTours(data);
+      } else {
+        throw new Error("Errore nel caricamento dei tour");
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   // Funzione per creare un nuovo tour
-  const handleCreateTour = (e) => {
+  const handleCreateTour = async (e) => {
     e.preventDefault();
     const token = localStorage.getItem("token");
 
@@ -51,61 +50,73 @@ function TourManagement() {
       return;
     }
 
-    fetch("http://localhost:3001/api/tours", {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(newTour),
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Errore nella creazione del tour");
-        }
-        return response.json();
-      })
-      .then((data) => {
-        if (imageFile) {
-          handleUploadImage(data.id); // Chiamata per caricare l'immagine associata al tour
-        } else {
-          fetchTours(); // Aggiorna la lista dei tour se non è stato caricato nessun file
-        }
-        setNewTour({
-          name: "",
-          description: "",
-          price: "",
-          maxParticipants: "",
-          lunghezzaItinerario: "",
-          tempoMedioPercorrenza: "",
-          linguaAccoglienza: "",
-          descrizioneCompleta: "",
-          accessoriInclusi: "",
-        });
-      })
-      .catch((error) => console.error("Errore nella creazione del tour:", error));
+    try {
+      // Prima creazione del tour
+      const response = await fetch("http://localhost:3001/api/tours", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(newTour),
+      });
+
+      if (!response.ok) {
+        throw new Error("Errore nella creazione del tour");
+      }
+
+      const createdTour = await response.json(); // Recupera il tour creato
+
+      // Se c'è un'immagine, effettua il caricamento
+      if (imageFile) {
+        await handleUploadImage(createdTour.id);
+      }
+
+      // Aggiorna la lista dei tour
+      fetchTours();
+
+      // Resetta il form
+      setNewTour({
+        name: "",
+        description: "",
+        price: "",
+        maxParticipants: "",
+        lunghezzaItinerario: "",
+        tempoMedioPercorrenza: "",
+        linguaAccoglienza: "",
+        descrizioneCompleta: "",
+        accessoriInclusi: "",
+      });
+      setImageFile(null); // Reset del file immagine
+    } catch (error) {
+      console.error("Errore nella creazione del tour:", error);
+    }
   };
 
   // Funzione per caricare l'immagine del tour
-  const handleUploadImage = (tourId) => {
+  const handleUploadImage = async (tourId) => {
     const token = localStorage.getItem("token");
     const formData = new FormData();
     formData.append("image", imageFile);
 
-    fetch(`http://localhost:3001/api/tours/${tourId}/image`, {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-      body: formData,
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Errore nel caricamento dell'immagine");
-        }
-        fetchTours(); // Aggiorna la lista dei tour dopo il caricamento dell'immagine
-      })
-      .catch((error) => console.error("Errore nel caricamento dell'immagine:", error));
+    try {
+      const response = await fetch(`http://localhost:3001/api/tours/${tourId}/image`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        body: formData,
+      });
+
+      if (!response.ok) {
+        throw new Error("Errore nel caricamento dell'immagine");
+      }
+
+      // Aggiorna la lista dei tour dopo il caricamento dell'immagine
+      fetchTours();
+    } catch (error) {
+      console.error("Errore nel caricamento dell'immagine:", error);
+    }
   };
 
   // Funzione per eliminare un tour
