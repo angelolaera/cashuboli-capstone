@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { addDays, format, startOfMonth, endOfMonth, startOfWeek, endOfWeek } from "date-fns";
 import { useNavigate } from "react-router-dom";
-import { Accordion, Button, Col, Container, Form, Row } from "react-bootstrap";
+import { Accordion, Button, Card, Col, Container, Form, Row } from "react-bootstrap";
 import "./TourBooking.css";
 
 const TourBooking = () => {
   const navigate = useNavigate();
 
-  // Stati
   const [dataSelezionata, setDataSelezionata] = useState(null);
   const [biciclettaSelezionata, setBiciclettaSelezionata] = useState(null);
   const [percorsoSelezionato, setPercorsoSelezionato] = useState(null);
@@ -21,10 +20,9 @@ const TourBooking = () => {
   useEffect(() => {
     fetchBiciclette();
     fetchTour();
-    checkAuth(); // Verifica autenticazione all'avvio
+    checkAuth();
   }, []);
 
-  // Funzione per controllare autenticazione
   const checkAuth = () => {
     const token = localStorage.getItem("token");
     if (!token) {
@@ -33,7 +31,6 @@ const TourBooking = () => {
     }
   };
 
-  // Funzione per gestire il fetch biciclette e tour
   const fetchBiciclette = async () => {
     try {
       const response = await fetch("http://localhost:3001/api/biciclette");
@@ -54,7 +51,6 @@ const TourBooking = () => {
     }
   };
 
-  // Funzione per selezionare data
   const gestisciSelezioneData = (data) => {
     if (data >= dataMinimaPrenotabile) {
       setDataSelezionata(data);
@@ -63,7 +59,6 @@ const TourBooking = () => {
     }
   };
 
-  // Funzione per confermare prenotazione
   const confermaPrenotazione = () => {
     const token = localStorage.getItem("token");
     if (!token) {
@@ -79,17 +74,32 @@ const TourBooking = () => {
         dataSelezionata: dataFormattata,
         biciclettaSelezionata,
         percorsoSelezionato,
-        partecipanti: partecipanti || [], // Aggiunto valore di default qui
+        partecipanti,
       },
     });
   };
 
-  // Aggiungi i partecipanti dinamicamente
+  const meseInizio = startOfMonth(oggi);
+  const meseFine = endOfMonth(meseInizio);
+  const settimanaInizio = startOfWeek(meseInizio, { weekStartsOn: 1 });
+  const settimanaFine = endOfWeek(meseFine, { weekStartsOn: 1 });
+  const giorniArray = [];
+  let giornoCorrente = settimanaInizio;
+
+  while (giornoCorrente <= settimanaFine) {
+    giorniArray.push(giornoCorrente);
+    giornoCorrente = addDays(giornoCorrente, 1);
+  }
+
+  const settimane = [];
+  for (let i = 0; i < giorniArray.length; i += 7) {
+    settimane.push(giorniArray.slice(i, i + 7));
+  }
+
   const aggiungiPartecipante = () => {
     setPartecipanti([...partecipanti, { nome: "", cognome: "", età: "" }]);
   };
 
-  // Funzione per gestire la modifica di un partecipante
   const handlePartecipanteChange = (index, field, value) => {
     const nuoviPartecipanti = [...partecipanti];
     nuoviPartecipanti[index][field] = value;
@@ -100,19 +110,19 @@ const TourBooking = () => {
     <Container>
       <Row className="mt-5">
         <Col xs={10}>
-          <h2 className="mt-3 text-center">PRENOTA IL TUO TOUR</h2>
+          <h2 className="mt-3 text-center">Book Your Tour</h2>
 
           {/* Renderizza il calendario */}
           <table className="calendar">
             <thead>
               <tr>
-                <th>Lun</th>
-                <th>Mar</th>
-                <th>Mer</th>
-                <th>Gio</th>
-                <th>Ven</th>
-                <th>Sab</th>
-                <th>Dom</th>
+                <th>Mon</th>
+                <th>Tue</th>
+                <th>Wed</th>
+                <th>Thu</th>
+                <th>Fri</th>
+                <th>Sat</th>
+                <th>Sun</th>
               </tr>
             </thead>
             <tbody>
@@ -139,57 +149,71 @@ const TourBooking = () => {
             </tbody>
           </table>
 
-          {/* Selezione Bicicletta e Percorso dinamici */}
+          {/* Selezione Bicicletta */}
           <div className="selection-box mt-3">
-            <label className="label-option-value mb-4">Scegli la tua bicicletta:</label>
-            <div className="bikes-selection">
-              {biciclette.map((bicicletta) => (
-                <div
-                  key={bicicletta.id}
-                  className={`bike-option ${biciclettaSelezionata?.id === bicicletta.id ? "selected" : ""}`}
-                  onClick={() => setBiciclettaSelezionata(bicicletta)}
-                >
-                  <img src={bicicletta.imageUrl} alt={bicicletta.modello} />
-                  <p className="tourbookingP">{bicicletta.modello}</p>
-                </div>
-              ))}
-            </div>
+            <label className="label-option-value mb-4">Choose your bike:</label>
+            <Row className="bikes-selection">
+              {biciclette.length > 0 ? (
+                biciclette.map((bicicletta) => (
+                  <Col xs={12} md={6} lg={4} key={bicicletta.id} className="mb-4">
+                    <Card
+                      onClick={() => setBiciclettaSelezionata(bicicletta)}
+                      className={`bike-option ${biciclettaSelezionata?.id === bicicletta.id ? "selected" : ""}`}
+                    >
+                      <Card.Img variant="top" src={bicicletta.imageUrl} alt={bicicletta.modello} />
+                      <Card.Body>
+                        <Card.Title>{bicicletta.modello}</Card.Title>
+                        <Card.Text>{bicicletta.descrizione}</Card.Text>
+                      </Card.Body>
+                    </Card>
+                  </Col>
+                ))
+              ) : (
+                <p>No bikes available</p>
+              )}
+            </Row>
 
-            <div className="mt-3">
-              <label className="label-option-value mb-5">Scegli il percorso:</label>
-              <div className="percorso-selection d-flex justify-content-center gap-5">
-                {tour.map((percorso) => (
-                  <div
-                    key={percorso.id}
-                    className={`percorso-option ${percorsoSelezionato?.id === percorso.id ? "selected" : ""}`}
-                    onClick={() => setPercorsoSelezionato(percorso)}
-                  >
-                    <img src={percorso.imageUrl} alt={percorso.name} />
-                    <p className="tourbookingP">{percorso.name}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
+            <label className="label-option-value mt-4 mb-5">Choose the tour:</label>
+            <Row className="tour-selection">
+              {tour.length > 0 ? (
+                tour.map((percorso) => (
+                  <Col xs={12} md={6} lg={4} key={percorso.id} className="mb-4">
+                    <Card
+                      onClick={() => setPercorsoSelezionato(percorso)}
+                      className={`tour-option ${percorsoSelezionato?.id === percorso.id ? "selected" : ""}`}
+                    >
+                      <Card.Img variant="top" src={percorso.imageUrl} alt={percorso.name} />
+                      <Card.Body>
+                        <Card.Title>{percorso.name}</Card.Title>
+                        <Card.Text>{percorso.descrizione}</Card.Text>
+                      </Card.Body>
+                    </Card>
+                  </Col>
+                ))
+              ) : (
+                <p>No tours available</p>
+              )}
+            </Row>
           </div>
 
-          {/* Aggiungi i partecipanti */}
+          {/* Partecipanti */}
           <div className="mt-4">
-            <h5>Inserisci i partecipanti</h5>
+            <h5>Enter Participant Details</h5>
             <Accordion>
               {partecipanti.map((partecipante, index) => (
                 <Accordion.Item eventKey={index} key={index}>
-                  <Accordion.Header>Partecipante {index + 1}</Accordion.Header>
+                  <Accordion.Header>Participant {index + 1}</Accordion.Header>
                   <Accordion.Body>
                     <Form.Group>
-                      <Form.Label>Nome</Form.Label>
+                      <Form.Label>First Name</Form.Label>
                       <Form.Control type="text" value={partecipante.nome} onChange={(e) => handlePartecipanteChange(index, "nome", e.target.value)} />
                     </Form.Group>
                     <Form.Group>
-                      <Form.Label>Cognome</Form.Label>
+                      <Form.Label>Last Name</Form.Label>
                       <Form.Control type="text" value={partecipante.cognome} onChange={(e) => handlePartecipanteChange(index, "cognome", e.target.value)} />
                     </Form.Group>
                     <Form.Group>
-                      <Form.Label>Età</Form.Label>
+                      <Form.Label>Age</Form.Label>
                       <Form.Control type="number" value={partecipante.età} onChange={(e) => handlePartecipanteChange(index, "età", e.target.value)} />
                     </Form.Group>
                   </Accordion.Body>
@@ -197,19 +221,20 @@ const TourBooking = () => {
               ))}
             </Accordion>
             <Button className="mt-3" onClick={aggiungiPartecipante}>
-              Aggiungi Partecipante
+              Add Participant
             </Button>
           </div>
         </Col>
+
         <Col xs={2} className="mt-3">
           <div className="mt-3 border border-1 rounded-3 p-3">
             {dataSelezionata && (
               <div className="booking-details">
-                <p className="tourbookingP">Hai selezionato il giorno: {format(dataSelezionata, "dd MMMM yyyy")}</p>
-                <p className="tourbookingP">Bicicletta selezionata: {biciclettaSelezionata?.modello || "Nessuna bicicletta selezionata"}</p>{" "}
-                <p className="tourbookingP">Percorso selezionato: {percorsoSelezionato?.name || "Nessun percorso selezionato"}</p>
+                <p className="tourbookingP">Selected Date: {format(dataSelezionata, "dd MMMM yyyy")}</p>
+                <p className="tourbookingP">Selected Bike: {biciclettaSelezionata?.modello || "No bike selected"}</p>
+                <p className="tourbookingP">Selected Tour: {percorsoSelezionato?.name || "No tour selected"}</p>
                 <button className="confirm-button" onClick={confermaPrenotazione}>
-                  Conferma Prenotazione
+                  Confirm Booking
                 </button>
               </div>
             )}

@@ -55,8 +55,9 @@ function BookingManagement() {
         <thead>
           <tr>
             <th>ID Utente</th>
-            <th>ID Tour</th>
-            <th>ID Bicicletta</th>
+            <th>Nominativo</th>
+            <th>Tour</th>
+            <th>Bicicletta</th>
             <th>Data Prenotazione</th>
             <th>Numero Biciclette Prenotate</th>
             <th>Prezzo Totale</th>
@@ -67,8 +68,9 @@ function BookingManagement() {
           {bookings.map((booking) => (
             <tr key={booking.id}>
               <td>{booking.utente.id}</td>
-              <td>{booking.tour.id}</td>
-              <td>{booking.bicicletta.id}</td>
+              <td>{booking.utente.nome + " " + booking.utente.cognome}</td>
+              <td>{booking.tour.name}</td>
+              <td>{booking.bicicletta.modello}</td>
               <td>{booking.dataPrenotazione}</td>
               <td>{booking.numeroBiciclettePrenotate}</td>
               <td>{booking.totalePrezzo}</td>
