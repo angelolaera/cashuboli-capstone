@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Col, Container, Row } from "react-bootstrap";
 import { useLocation, useNavigate } from "react-router-dom";
-import CheckoutForm from "./CheckoutForm"; // Importa il nuovo componente
+import CheckoutForm from "./CheckoutForm";
 import "./Checkout.css";
 
 const CheckoutPage = () => {
@@ -42,33 +42,13 @@ const CheckoutPage = () => {
     setNumPersone(value > 0 ? value : 1);
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    const prenotazioneData = {
-      tourId: percorsoSelezionato.id,
-      biciclettaId: biciclettaSelezionata.id,
-      numeroBiciclettePrenotate: numPersone,
-    };
-
-    try {
-      const token = localStorage.getItem("token");
-      const response = await fetch("http://localhost:3001/api/prenotazioni", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(prenotazioneData),
-      });
-
-      if (!response.ok) throw new Error("Errore nella prenotazione");
-
-      alert("Prenotazione completata!");
-      navigate("/conferma-prenotazione");
-    } catch (error) {
-      console.error("Errore nella prenotazione:", error);
-    }
+  const prenotazioneData = {
+    tourId: percorsoSelezionato.id,
+    biciclettaId: biciclettaSelezionata.id,
+    numeroBiciclettePrenotate: numPersone,
+    userData,
+    additionalInfo,
+    dataSelezionata,
   };
 
   return (
@@ -81,7 +61,7 @@ const CheckoutPage = () => {
             <p className="p-checkout">Bicicletta selezionata: {biciclettaSelezionata.modello}</p>
             <p className="p-checkout">Percorso selezionato: {percorsoSelezionato.name}</p>
             <h3 className="h3-checkout my-3">Inserisci i tuoi dati</h3>
-            <form onSubmit={handleSubmit} className="d-flex flex-column gap-3">
+            <form className="d-flex flex-column gap-3">
               <div className="form-group">
                 <label>Nome:</label>
                 <input type="text" name="nome" value={userData.nome} onChange={handleChange} required />
@@ -103,16 +83,6 @@ const CheckoutPage = () => {
                 <input type="text" name="indirizzo" value={userData.indirizzo} onChange={handleChange} required />
               </div>
               <div className="form-group">
-                <label>Altezza:</label>
-                <input type="text" name="altezza" value={userData.altezza} onChange={handleChange} required />
-                cm
-              </div>
-              <div className="form-group">
-                <label>Peso:</label>
-                <input type="text" name="peso" value={userData.peso} onChange={handleChange} required />
-                Kg
-              </div>
-              <div className="form-group">
                 <label>Informazioni in più:</label>
                 <textarea value={additionalInfo} onChange={(e) => setAdditionalInfo(e.target.value)} />
               </div>
@@ -120,13 +90,9 @@ const CheckoutPage = () => {
                 <label>Numero di persone:</label>
                 <input type="number" value={numPersone} onChange={handleNumPersoneChange} min="1" />
               </div>
-              <br />
-              <button type="submit" className="btn-checkout">
-                Conferma Ordine
-              </button>
             </form>
-            <h3 className="h3-checkout mt-3">Totale: €{totale}</h3>
-            <CheckoutForm totalAmount={totale} /> {/* Form per il pagamento */}
+            <h3 className="h3-checkout mt-3 mb-3">Totale: €{totale}</h3>
+            <CheckoutForm totalAmount={totale} prenotazioneData={prenotazioneData} />
           </div>
         </Col>
       </Row>

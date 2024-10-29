@@ -26,7 +26,7 @@ const TourBooking = () => {
   const checkAuth = () => {
     const token = localStorage.getItem("token");
     if (!token) {
-      alert("Devi effettuare il login per continuare la prenotazione.");
+      alert("Per effettuare una prenotazione è necessario il login. Se non sei registrato, registrati!");
       navigate("/");
     }
   };
@@ -110,7 +110,7 @@ const TourBooking = () => {
     <Container>
       <Row className="mt-5">
         <Col xs={10}>
-          <h2 className="mt-3 text-center">Book Your Tour</h2>
+          <h2 className="mt-3 text-center">PRENOTA IL TUO TOUR!</h2>
 
           {/* Renderizza il calendario */}
           <table className="calendar">
@@ -150,8 +150,8 @@ const TourBooking = () => {
           </table>
 
           {/* Selezione Bicicletta */}
-          <div className="selection-box mt-3">
-            <label className="label-option-value mb-4">Choose your bike:</label>
+          <div className="selection-box mt-4 text-center">
+            <label className="label-option-value mb-4">Scegli la tua bici preferita:</label>
             <Row className="bikes-selection">
               {biciclette.length > 0 ? (
                 biciclette.map((bicicletta) => (
@@ -173,8 +173,8 @@ const TourBooking = () => {
               )}
             </Row>
 
-            <label className="label-option-value mt-4 mb-5">Choose the tour:</label>
-            <Row className="tour-selection">
+            <label className="label-option-value mt-4 mb-4">Seleziona il tour desiderato:</label>
+            <Row className="tour-selection d-flex justify-content-evenly">
               {tour.length > 0 ? (
                 tour.map((percorso) => (
                   <Col xs={12} md={6} lg={4} key={percorso.id} className="mb-4">
@@ -198,22 +198,22 @@ const TourBooking = () => {
 
           {/* Partecipanti */}
           <div className="mt-4">
-            <h5>Enter Participant Details</h5>
+            <h5>Aggiungi Partecipanti</h5>
             <Accordion>
               {partecipanti.map((partecipante, index) => (
                 <Accordion.Item eventKey={index} key={index}>
-                  <Accordion.Header>Participant {index + 1}</Accordion.Header>
+                  <Accordion.Header>{index + 1}° Partecipante</Accordion.Header>
                   <Accordion.Body>
                     <Form.Group>
-                      <Form.Label>First Name</Form.Label>
+                      <Form.Label>Nome</Form.Label>
                       <Form.Control type="text" value={partecipante.nome} onChange={(e) => handlePartecipanteChange(index, "nome", e.target.value)} />
                     </Form.Group>
                     <Form.Group>
-                      <Form.Label>Last Name</Form.Label>
+                      <Form.Label>Cognome</Form.Label>
                       <Form.Control type="text" value={partecipante.cognome} onChange={(e) => handlePartecipanteChange(index, "cognome", e.target.value)} />
                     </Form.Group>
                     <Form.Group>
-                      <Form.Label>Age</Form.Label>
+                      <Form.Label>Età</Form.Label>
                       <Form.Control type="number" value={partecipante.età} onChange={(e) => handlePartecipanteChange(index, "età", e.target.value)} />
                     </Form.Group>
                   </Accordion.Body>
@@ -230,9 +230,17 @@ const TourBooking = () => {
           <div className="mt-3 border border-1 rounded-3 p-3">
             {dataSelezionata && (
               <div className="booking-details">
-                <p className="tourbookingP">Selected Date: {format(dataSelezionata, "dd MMMM yyyy")}</p>
-                <p className="tourbookingP">Selected Bike: {biciclettaSelezionata?.modello || "No bike selected"}</p>
-                <p className="tourbookingP">Selected Tour: {percorsoSelezionato?.name || "No tour selected"}</p>
+                <p className="tourbookingP">
+                  <b>Data Selezionata:</b>
+                  <br />
+                  {format(dataSelezionata, "dd MMMM yyyy")}
+                </p>
+                <p className="tourbookingP">
+                  <b>Bici Selezionata:</b> {biciclettaSelezionata?.modello || "No bike selected"}
+                </p>
+                <p className="tourbookingP">
+                  <b>Tour Selezionato:</b> {percorsoSelezionato?.name || "No tour selected"}
+                </p>
                 <button className="confirm-button" onClick={confermaPrenotazione}>
                   Confirm Booking
                 </button>

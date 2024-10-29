@@ -60,7 +60,8 @@ function BookingManagement() {
             <th>Bicicletta</th>
             <th>Data Prenotazione</th>
             <th>Numero Biciclette Prenotate</th>
-            <th>Prezzo Totale</th>
+            <th>Prezzo Totale €</th>
+            <th>Stato Prenotazione</th>
             <th>Azione</th>
           </tr>
         </thead>
@@ -73,7 +74,8 @@ function BookingManagement() {
               <td>{booking.bicicletta.modello}</td>
               <td>{booking.dataPrenotazione}</td>
               <td>{booking.numeroBiciclettePrenotate}</td>
-              <td>{booking.totalePrezzo}</td>
+              <td>{booking.totalePrezzo + ",00€"}</td>
+              <td>{booking.stato}</td>
               <td>
                 <Button variant="danger" onClick={() => handleDeleteBooking(booking.id)}>
                   Elimina

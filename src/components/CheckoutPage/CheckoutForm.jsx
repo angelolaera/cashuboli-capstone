@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
-import { useNavigate } from "react-router-dom"; // Importa useNavigate
+import { useNavigate } from "react-router-dom";
+import "../CheckoutPage/CheckoutForm.css";
 
-const CheckoutForm = ({ totalAmount }) => {
+const CheckoutForm = ({ totalAmount, prenotazioneData }) => {
   const stripe = useStripe();
   const elements = useElements();
-  const navigate = useNavigate(); // Inizializza useNavigate
+  const navigate = useNavigate();
   const [clientSecret, setClientSecret] = useState(null);
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
@@ -21,7 +22,7 @@ const CheckoutForm = ({ totalAmount }) => {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({ amount: totalAmount * 100 }), // Converti in centesimi
+        body: JSON.stringify({ amount: totalAmount * 100 }),
       });
 
       if (!response.ok) {
@@ -29,7 +30,6 @@ const CheckoutForm = ({ totalAmount }) => {
       }
 
       const data = await response.json();
-      console.log("Client secret ricevuto:", data.clientSecret);
       setClientSecret(data.clientSecret);
     } catch (error) {
       console.error("Errore nel recupero del client secret:", error);
@@ -47,8 +47,7 @@ const CheckoutForm = ({ totalAmount }) => {
 
   const handlePayment = async () => {
     if (!stripe || !elements) {
-      console.error("Stripe o Elements non sono inizializzati.");
-      setErrorMessage("Errore nell'inizializzazione del sistema di pagamento. Ricarica la pagina.");
+      setErrorMessage("Errore nell'inizializzazione del sistema di pagamento.");
       return;
     }
 
@@ -60,22 +59,39 @@ const CheckoutForm = ({ totalAmount }) => {
       });
 
       if (result.error) {
-        console.error("Errore durante il pagamento:", result.error.message);
         setErrorMessage(result.error.message);
         alert("Pagamento fallito. Verrai reindirizzato alla pagina di prenotazione per riprovare.");
-        navigate("/booking"); // Reindirizza alla pagina di booking in caso di errore
-      } else {
-        if (result.paymentIntent && result.paymentIntent.status === "succeeded") {
-          alert("Pagamento completato con successo!");
-          navigate("/"); // Reindirizza alla homepage in caso di successo
-        }
+        navigate("/booking");
+      } else if (result.paymentIntent && result.paymentIntent.status === "succeeded") {
+        alert("Pagamento completato con successo!");
+        await submitBooking(); // Invio dei dati della prenotazione
+        navigate("/");
       }
     } catch (error) {
-      console.error("Errore imprevisto durante la conferma del pagamento:", error);
-      setErrorMessage("Si è verificato un errore durante il pagamento. Riprova più tardi.");
-      navigate("/booking"); // Reindirizza alla pagina di booking in caso di errore imprevisto
+      setErrorMessage("Errore durante la conferma del pagamento.");
+      navigate("/booking");
     } finally {
       setLoading(false);
+    }
+  };
+
+  const submitBooking = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      const response = await fetch("http://localhost:3001/api/prenotazioni", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(prenotazioneData),
+      });
+
+      if (!response.ok) {
+        throw new Error("Errore nell'invio dei dati della prenotazione");
+      }
+    } catch (error) {
+      setErrorMessage("Errore durante l'invio della prenotazione.");
     }
   };
 
@@ -89,10 +105,10 @@ const CheckoutForm = ({ totalAmount }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <CardElement />
+    <form onSubmit={handleSubmit} className="cashoutForm mb-5">
+      <CardElement className="paymentLabel" />
       {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
-      <button type="submit" disabled={loading}>
+      <button className="checkoutFormBtn" type="submit" disabled={loading}>
         {loading ? "Elaborazione..." : "Paga Ora"}
       </button>
     </form>

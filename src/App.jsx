@@ -13,7 +13,6 @@ import CheckoutPage from "./components/CheckoutPage/CheckOut";
 import TourBooking from "./components/CalendarioBooking/TourBooking";
 import Return from "./components/Return/Return";
 import AdminDashboard from "./components/AdminDashboard/AdminDashboard";
-import ConfermaPrenotazionePage from "./components/ConfermaPrenotazione/ConfermaPrenotazione";
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
 
@@ -36,7 +35,6 @@ function App() {
             <Route path="/checkoutpage" element={<CheckoutPage />} />
             <Route path="/return" element={<Return />} />
             <Route path="/admin-dashboard" element={<AdminDashboard />} />
-            <Route path="/conferma-prenotazione" element={<ConfermaPrenotazionePage />} />
           </Routes>
         </Elements>
         <p className="copyrightAngelo text-center">© Copyright - Angelo Laera</p>
