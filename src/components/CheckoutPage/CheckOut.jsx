@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Col, Container, Row } from "react-bootstrap";
 import { useLocation, useNavigate } from "react-router-dom";
+import CheckoutForm from "./CheckoutForm"; // Importa il nuovo componente
 import "./Checkout.css";
 
 const CheckoutPage = () => {
@@ -36,13 +37,18 @@ const CheckoutPage = () => {
     setUserData((prev) => ({ ...prev, [name]: value }));
   };
 
+  const handleNumPersoneChange = (e) => {
+    const value = parseInt(e.target.value, 10);
+    setNumPersone(value > 0 ? value : 1);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     const prenotazioneData = {
-      tourId: percorsoSelezionato.id, // Usa l'ID del percorso selezionato
-      biciclettaId: biciclettaSelezionata.id, // Usa l'ID della bicicletta selezionata
-      numeroBiciclettePrenotate: numPersone, // Numero di biciclette selezionato
+      tourId: percorsoSelezionato.id,
+      biciclettaId: biciclettaSelezionata.id,
+      numeroBiciclettePrenotate: numPersone,
     };
 
     try {
@@ -59,7 +65,7 @@ const CheckoutPage = () => {
       if (!response.ok) throw new Error("Errore nella prenotazione");
 
       alert("Prenotazione completata!");
-      navigate("/conferma-prenotazione"); // Torna alla pagina di conferma
+      navigate("/conferma-prenotazione");
     } catch (error) {
       console.error("Errore nella prenotazione:", error);
     }
@@ -112,14 +118,15 @@ const CheckoutPage = () => {
               </div>
               <div className="form-group">
                 <label>Numero di persone:</label>
-                <input type="number" value={numPersone} onChange={(e) => setNumPersone(e.target.value)} min="1" />
+                <input type="number" value={numPersone} onChange={handleNumPersoneChange} min="1" />
               </div>
               <br />
-              <h3 className="h3-checkout mt-2">Totale: €{totale}</h3>
               <button type="submit" className="btn-checkout">
                 Conferma Ordine
               </button>
             </form>
+            <h3 className="h3-checkout mt-3">Totale: €{totale}</h3>
+            <CheckoutForm totalAmount={totale} /> {/* Form per il pagamento */}
           </div>
         </Col>
       </Row>

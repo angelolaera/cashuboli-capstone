@@ -27,7 +27,7 @@ const TourBooking = () => {
     const token = localStorage.getItem("token");
     if (!token) {
       alert("Devi effettuare il login per continuare la prenotazione.");
-      navigate("/login");
+      navigate("/");
     }
   };
 
