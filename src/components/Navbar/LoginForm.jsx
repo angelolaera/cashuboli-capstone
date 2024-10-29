@@ -31,10 +31,12 @@ function LoginForm() {
         return response.json();
       })
       .then((data) => {
-        // Salvataggio Token e Utente nel Localstorage
+        // Salvataggio Token, Utente, Ruolo e ID nel Localstorage
         localStorage.setItem("token", data.token);
         localStorage.setItem("user", data.username);
-        navigate("/dashboard"); // Reindirizza alla dashboard o alla pagina desiderata
+        localStorage.setItem("role", data.role);
+        localStorage.setItem("userId", data.userId); // Aggiungi l'ID dell'utente
+        navigate("/"); // Reindirizza alla dashboard o alla pagina desiderata
       })
       .catch((error) => {
         console.error("Errore durante il login:", error);

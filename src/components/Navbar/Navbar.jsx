@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
@@ -14,13 +14,21 @@ function BarraNavigazione() {
   const [showRegister, setShowRegister] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [username, setUsername] = useState("");
-  const [role, setRole] = useState("");
+  const [username, setUsername] = useState(localStorage.getItem("user") || "");
+  const [role, setRole] = useState(localStorage.getItem("role") || "");
   const [nome, setNome] = useState("");
   const [cognome, setCognome] = useState("");
   const [dataDiNascita, setDataDiNascita] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const navigate = useNavigate();
+  const [userId, setUserId] = useState(localStorage.getItem("userId") || "");
+
+  useEffect(() => {
+    // Recupera i dati utente dal localStorage all'avvio
+    setUsername(localStorage.getItem("user") || "");
+    setRole(localStorage.getItem("role") || "");
+    setUserId(localStorage.getItem("userId") || "");
+  }, []);
 
   const handleCloseLogin = () => setShowLogin(false);
   const handleShowLogin = () => setShowLogin(true);
@@ -49,8 +57,10 @@ function BarraNavigazione() {
         localStorage.setItem("token", data.token);
         localStorage.setItem("user", data.username);
         localStorage.setItem("role", data.role);
+        localStorage.setItem("userId", data.userId);
         setUsername(data.username);
         setRole(data.role);
+        setUserId(data.userId);
         handleCloseLogin();
       })
       .catch((error) => {
@@ -98,8 +108,11 @@ function BarraNavigazione() {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
     localStorage.removeItem("role");
+    localStorage.removeItem("userId");
     setUsername("");
     setRole("");
+    setUserId("");
+
     navigate("/");
   };
 
@@ -145,7 +158,7 @@ function BarraNavigazione() {
                   {role === "ADMIN" ? (
                     <Dropdown.Item onClick={() => navigate("/admin-dashboard")}>Dashboard Admin</Dropdown.Item>
                   ) : (
-                    <Dropdown.Item onClick={() => navigate("/user-area")}>Area Utente</Dropdown.Item>
+                    <Dropdown.Item onClick={() => navigate("/area-utente")}>Area Utente</Dropdown.Item>
                   )}
                   <Dropdown.Item onClick={handleLogout}>Logout</Dropdown.Item>
                 </Dropdown.Menu>
