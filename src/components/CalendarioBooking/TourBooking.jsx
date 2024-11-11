@@ -221,7 +221,7 @@ const TourBooking = () => {
               ))}
             </Accordion>
             <Button className="mt-3" onClick={aggiungiPartecipante}>
-              Add Participant
+              Aggiungi partecipante
             </Button>
           </div>
         </Col>
@@ -242,7 +242,7 @@ const TourBooking = () => {
                   <b>Tour Selezionato:</b> {percorsoSelezionato?.name || "No tour selected"}
                 </p>
                 <button className="confirm-button" onClick={confermaPrenotazione}>
-                  Confirm Booking
+                  Conferma Prenotazione
                 </button>
               </div>
             )}
