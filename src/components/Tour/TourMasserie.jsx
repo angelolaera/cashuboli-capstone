@@ -15,7 +15,7 @@ function TourMasserie() {
   const fetchTours = () => {
     const token = localStorage.getItem("token");
 
-    fetch("http://localhost:3001/api/tours", {
+    fetch("https://backend.cashuboli.it/api/tours", {
       method: "GET",
       headers: {
         Authorization: `Bearer ${token}`,

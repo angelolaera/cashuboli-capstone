@@ -12,7 +12,7 @@ function LoginForm() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    fetch("http://localhost:3001/auth/login", {
+    fetch("https://backend.cashuboli.it/auth/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

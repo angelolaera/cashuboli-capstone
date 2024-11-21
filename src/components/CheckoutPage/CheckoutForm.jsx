@@ -16,7 +16,7 @@ const CheckoutForm = ({ totalAmount, prenotazioneData }) => {
       setLoading(true);
       const token = localStorage.getItem("token");
 
-      const response = await fetch("http://localhost:3001/api/payments/create-payment-intent", {
+      const response = await fetch("https://backend.cashuboli.it/api/payments/create-payment-intent", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -78,7 +78,7 @@ const CheckoutForm = ({ totalAmount, prenotazioneData }) => {
   const submitBooking = async () => {
     try {
       const token = localStorage.getItem("token");
-      const response = await fetch("http://localhost:3001/api/prenotazioni", {
+      const response = await fetch("https://backend.cashuboli.it/api/prenotazioni", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -10,7 +10,7 @@ function Bici() {
   }, []);
 
   const fetchBikes = () => {
-    fetch("http://localhost:3001/api/biciclette", {
+    fetch("https://backend.cashuboli.it/api/biciclette", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

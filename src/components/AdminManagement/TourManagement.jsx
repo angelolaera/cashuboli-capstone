@@ -24,7 +24,7 @@ function TourManagement() {
   // Funzione per recuperare i tour
   const fetchTours = async () => {
     try {
-      const response = await fetch("http://localhost:3001/api/tours", {
+      const response = await fetch("https://backend.cashuboli.it/api/tours", {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
@@ -52,7 +52,7 @@ function TourManagement() {
 
     try {
       // Prima creazione del tour
-      const response = await fetch("http://localhost:3001/api/tours", {
+      const response = await fetch("https://backend.cashuboli.it/api/tours", {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -100,7 +100,7 @@ function TourManagement() {
     formData.append("image", imageFile);
 
     try {
-      const response = await fetch(`http://localhost:3001/api/tours/${tourId}/image`, {
+      const response = await fetch(`https://backend.cashuboli.it/api/tours/${tourId}/image`, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -123,7 +123,7 @@ function TourManagement() {
   const handleDeleteTour = (id) => {
     const token = localStorage.getItem("token");
 
-    fetch(`http://localhost:3001/api/tours/${id}`, {
+    fetch(`https://backend.cashuboli.it/api/tours/${id}`, {
       method: "DELETE",
       headers: {
         Authorization: `Bearer ${token}`,

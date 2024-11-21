@@ -16,7 +16,7 @@ const AreaUtente = () => {
       const token = localStorage.getItem("token");
       const utenteId = localStorage.getItem("userId"); // Recupera l'ID dell'utente
 
-      const response = await fetch(`http://localhost:3001/api/prenotazioni/user/${utenteId}`, {
+      const response = await fetch(`https://backend.cashuboli.it/api/prenotazioni/user/${utenteId}`, {
         method: "GET",
         headers: {
           Authorization: `Bearer ${token}`,

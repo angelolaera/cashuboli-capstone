@@ -19,7 +19,7 @@ function BikeManagement() {
   const fetchBikes = () => {
     const token = localStorage.getItem("token");
 
-    fetch("http://localhost:3001/api/biciclette", {
+    fetch("https://backend.cashuboli.it/api/biciclette", {
       method: "GET",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -41,7 +41,7 @@ function BikeManagement() {
     e.preventDefault();
     const token = localStorage.getItem("token");
 
-    fetch("http://localhost:3001/api/biciclette", {
+    fetch("https://backend.cashuboli.it/api/biciclette", {
       method: "POST",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -77,7 +77,7 @@ function BikeManagement() {
     const formData = new FormData();
     formData.append("image", imageFile);
 
-    fetch(`http://localhost:3001/api/biciclette/${bikeId}/image`, {
+    fetch(`https://backend.cashuboli.it/api/biciclette/${bikeId}/image`, {
       method: "POST",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -97,7 +97,7 @@ function BikeManagement() {
   const handleDeleteBike = (id) => {
     const token = localStorage.getItem("token");
 
-    fetch(`http://localhost:3001/api/biciclette/${id}`, {
+    fetch(`https://backend.cashuboli.it/api/biciclette/${id}`, {
       method: "DELETE",
       headers: {
         Authorization: `Bearer ${token}`,

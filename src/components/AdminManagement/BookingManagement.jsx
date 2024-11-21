@@ -12,7 +12,7 @@ function BookingManagement() {
   const fetchBookings = () => {
     const token = localStorage.getItem("token");
 
-    fetch("http://localhost:3001/api/prenotazioni", {
+    fetch("https://backend.cashuboli.it/api/prenotazioni", {
       method: "GET",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -37,7 +37,7 @@ function BookingManagement() {
   const handleDeleteBooking = (id) => {
     const token = localStorage.getItem("token");
 
-    fetch(`http://localhost:3001/api/prenotazioni/${id}`, {
+    fetch(`https://backend.cashuboli.it/api/prenotazioni/${id}`, {
       method: "DELETE",
       headers: {
         Authorization: `Bearer ${token}`,

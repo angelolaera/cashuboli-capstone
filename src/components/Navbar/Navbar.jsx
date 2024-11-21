@@ -37,7 +37,7 @@ function BarraNavigazione() {
 
   const handleLoginSubmit = (e) => {
     e.preventDefault();
-    fetch("http://localhost:3001/auth/login", {
+    fetch("https://backend.cashuboli.it/auth/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -75,7 +75,7 @@ function BarraNavigazione() {
       return;
     }
 
-    fetch("http://localhost:3001/auth/register", {
+    fetch("https://backend.cashuboli.it/auth/register", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

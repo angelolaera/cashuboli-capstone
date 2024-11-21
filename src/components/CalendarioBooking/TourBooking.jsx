@@ -33,7 +33,7 @@ const TourBooking = () => {
 
   const fetchBiciclette = async () => {
     try {
-      const response = await fetch("http://localhost:3001/api/biciclette");
+      const response = await fetch("https://backend.cashuboli.it/api/biciclette");
       const data = await response.json();
       setBiciclette(data);
     } catch (error) {
@@ -43,7 +43,7 @@ const TourBooking = () => {
 
   const fetchTour = async () => {
     try {
-      const response = await fetch("http://localhost:3001/api/tours");
+      const response = await fetch("https://backend.cashuboli.it/api/tours");
       const data = await response.json();
       setTour(data);
     } catch (error) {
