@@ -8,6 +8,8 @@ import Form from "react-bootstrap/Form";
 import Dropdown from "react-bootstrap/Dropdown";
 import Logo from "../../asset/img/logo.png";
 import { Link, useNavigate } from "react-router-dom";
+import BASE_URL from "../../config";
+import Swal from "sweetalert2";
 
 function BarraNavigazione() {
   const [showLogin, setShowLogin] = useState(false);
@@ -37,7 +39,7 @@ function BarraNavigazione() {
 
   const handleLoginSubmit = (e) => {
     e.preventDefault();
-    fetch("https://backend.cashuboli.it/auth/login", {
+    fetch(`${BASE_URL}/auth/login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -62,9 +64,20 @@ function BarraNavigazione() {
         setRole(data.role);
         setUserId(data.userId);
         handleCloseLogin();
+        Swal.fire({
+          icon: "success",
+          title: "Benvenuto" + " " + data.username,
+          confirmButtonColor: "#b22222",
+        });
       })
       .catch((error) => {
         console.error("Errore durante il login:", error);
+        Swal.fire({
+          icon: "error",
+          title: "Errore di accesso",
+          text: "L'email non è associata a nessun account!",
+          confirmButtonColor: "#b22222",
+        });
       });
   };
 
@@ -75,7 +88,7 @@ function BarraNavigazione() {
       return;
     }
 
-    fetch("https://backend.cashuboli.it/auth/register", {
+    fetch(`${BASE_URL}/auth/register`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -95,7 +108,11 @@ function BarraNavigazione() {
         return response.json();
       })
       .then((data) => {
-        alert("Registrazione effettuata con successo!");
+        Swal.fire({
+          icon: "success",
+          title: "Registrazione avvenuta con successo! Riceverai una mail di conferma per attivare il tuo account. Controlla la tua casella di posta.",
+          confirmButtonColor: "#b22222",
+        });
         handleCloseRegister();
         navigate("/"); // Torna alla homepage dopo la registrazione
       })
@@ -112,7 +129,10 @@ function BarraNavigazione() {
     setUsername("");
     setRole("");
     setUserId("");
-
+    Swal.fire({
+      title: "Stai lasciando la tua area riservata! Arrivederci " + username,
+      confirmButtonColor: "#b22222",
+    });
     navigate("/");
   };
 

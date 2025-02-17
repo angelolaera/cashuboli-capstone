@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
 import { useNavigate } from "react-router-dom";
 import "../CheckoutPage/CheckoutForm.css";
+import BASE_URL from "../../config";
 
 const CheckoutForm = ({ totalAmount, prenotazioneData }) => {
   const stripe = useStripe();
@@ -16,7 +17,7 @@ const CheckoutForm = ({ totalAmount, prenotazioneData }) => {
       setLoading(true);
       const token = localStorage.getItem("token");
 
-      const response = await fetch("https://backend.cashuboli.it/api/payments/create-payment-intent", {
+      const response = await fetch(`${BASE_URL}/api/payments/create-payment-intent`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -78,7 +79,7 @@ const CheckoutForm = ({ totalAmount, prenotazioneData }) => {
   const submitBooking = async () => {
     try {
       const token = localStorage.getItem("token");
-      const response = await fetch("https://backend.cashuboli.it/api/prenotazioni", {
+      const response = await fetch(`${BASE_URL}/api/prenotazioni`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

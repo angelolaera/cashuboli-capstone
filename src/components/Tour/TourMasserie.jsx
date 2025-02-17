@@ -1,6 +1,7 @@
 import "./TourMasserie.css";
 import React, { useEffect, useState } from "react";
 import { Badge, Button, Card, Col, Container, Row, Modal } from "react-bootstrap";
+import BASE_URL from "../../config";
 
 function TourMasserie() {
   const [tours, setTours] = useState([]);
@@ -15,7 +16,7 @@ function TourMasserie() {
   const fetchTours = () => {
     const token = localStorage.getItem("token");
 
-    fetch("https://backend.cashuboli.it/api/tours", {
+    fetch(`${BASE_URL}/api/tours`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${token}`,

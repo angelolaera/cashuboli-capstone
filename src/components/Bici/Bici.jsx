@@ -1,5 +1,6 @@
 import { Card, Col, Container, Row } from "react-bootstrap";
 import { useEffect, useState } from "react";
+import BASE_URL from "../../config";
 
 function Bici() {
   const [bikes, setBikes] = useState([]);
@@ -10,7 +11,7 @@ function Bici() {
   }, []);
 
   const fetchBikes = () => {
-    fetch("https://backend.cashuboli.it/api/biciclette", {
+    fetch(`${BASE_URL}/api/biciclette`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

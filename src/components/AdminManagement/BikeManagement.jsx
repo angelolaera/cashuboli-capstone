@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Button, Form, Table } from "react-bootstrap";
+import BASE_URL from "../../config";
 
 function BikeManagement() {
   const [bikes, setBikes] = useState([]);
@@ -19,7 +20,7 @@ function BikeManagement() {
   const fetchBikes = () => {
     const token = localStorage.getItem("token");
 
-    fetch("https://backend.cashuboli.it/api/biciclette", {
+    fetch(`${BASE_URL}/api/biciclette`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -41,7 +42,7 @@ function BikeManagement() {
     e.preventDefault();
     const token = localStorage.getItem("token");
 
-    fetch("https://backend.cashuboli.it/api/biciclette", {
+    fetch(`${BASE_URL}/api/biciclette`, {
       method: "POST",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -77,7 +78,7 @@ function BikeManagement() {
     const formData = new FormData();
     formData.append("image", imageFile);
 
-    fetch(`https://backend.cashuboli.it/api/biciclette/${bikeId}/image`, {
+    fetch(`${BASE_URL}/api/biciclette/${bikeId}/image`, {
       method: "POST",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -97,7 +98,7 @@ function BikeManagement() {
   const handleDeleteBike = (id) => {
     const token = localStorage.getItem("token");
 
-    fetch(`https://backend.cashuboli.it/api/biciclette/${id}`, {
+    fetch(`${BASE_URL}/api/biciclette/${id}`, {
       method: "DELETE",
       headers: {
         Authorization: `Bearer ${token}`,

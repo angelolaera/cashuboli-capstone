@@ -2,45 +2,80 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
+import BASE_URL from "../../config";
+import Swal from "sweetalert2";
 
 function LoginForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  const [emailError, setEmailError] = useState("");
   const navigate = useNavigate();
+
+  const validateForm = () => {
+    setEmailError("");
+    setErrorMessage("");
+
+    if (!email || !password) {
+      setErrorMessage("Email e password sono obbligatorie.");
+      return false;
+    }
+    if (!/\S+@\S+\.\S+/.test(email)) {
+      setEmailError("Inserisci un'email valida.");
+      return false;
+    }
+    return true;
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    fetch("https://backend.cashuboli.it/auth/login", {
+    if (!validateForm()) return;
+
+    fetch(`${BASE_URL}/auth/login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({
-        email: email,
-        password: password,
-      }),
+      body: JSON.stringify({ email, password }),
     })
       .then((response) => {
-        if (!response.ok) {
-          return response.json().then((errorData) => {
-            throw new Error(errorData.message);
-          });
-        }
-        return response.json();
+        console.log("Response status:", response.status); // Log dello status della risposta
+        return response.json().then((data) => {
+          console.log("Response data:", data); // Log dei dati della risposta
+          if (!response.ok) {
+            if (response.status === 401) {
+              // Mostra un alert con SweetAlert2 se l'email non è nel database
+              console.log("Errore 401: email non trovata");
+              Swal.fire({
+                icon: "error",
+                title: "Errore di accesso",
+                text: "L'email non è associata a nessun account!",
+                confirmButtonColor: "#b22222",
+              });
+            } else {
+              console.log("Errore generico:", data.message);
+              Swal.fire({
+                icon: "error",
+                title: "Errore",
+                text: data.message || "Si è verificato un errore!",
+                confirmButtonColor: "#b22222",
+              });
+            }
+            throw new Error(data.message);
+          }
+          return data;
+        });
       })
       .then((data) => {
-        // Salvataggio Token, Utente, Ruolo e ID nel Localstorage
         localStorage.setItem("token", data.token);
         localStorage.setItem("user", data.username);
         localStorage.setItem("role", data.role);
-        localStorage.setItem("userId", data.userId); // Aggiungi l'ID dell'utente
-        navigate("/"); // Reindirizza alla dashboard o alla pagina desiderata
+        localStorage.setItem("userId", data.userId);
+        navigate("/");
       })
       .catch((error) => {
-        console.error("Errore durante il login:", error);
-        setErrorMessage(error.message);
+        console.error("Errore durante il login: ciao", error.message);
       });
   };
 
@@ -48,7 +83,8 @@ function LoginForm() {
     <Form onSubmit={handleSubmit}>
       <Form.Group controlId="formBasicEmail">
         <Form.Label>Email</Form.Label>
-        <Form.Control type="email" placeholder="Enter email" value={email} onChange={(e) => setEmail(e.target.value)} />
+        <Form.Control type="email" placeholder="Enter email ciao" value={email} onChange={(e) => setEmail(e.target.value)} isInvalid={!!emailError} />
+        <Form.Control.Feedback type="invalid">{emailError}</Form.Control.Feedback>
       </Form.Group>
 
       <Form.Group controlId="formBasicPassword">

@@ -1,7 +1,9 @@
-.tour-booking {
-  text-align: center;
-  font-family: Oswald;
-  color: #ffffff;
+.tour-title {
+  font-family: "Oswald", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 700;
+  font-size: 4em;
+  color: #590f18 !important;
 }
 
 h2,
@@ -9,56 +11,6 @@ h2,
 .label-option-value,
 .booking-details {
   color: #590f18;
-}
-
-.calendar {
-  width: 100%;
-  max-width: 500px;
-  margin: 20px auto;
-  border-collapse: collapse;
-}
-
-.calendar th,
-.calendar td {
-  border: 1px solid #590f18;
-  height: 50px;
-  text-align: center;
-  vertical-align: middle;
-}
-
-.calendar th {
-  background-color: #590f18;
-  color: #ffffff;
-  padding: 10px;
-}
-
-.calendar td {
-  background-color: #ffffff;
-  color: #590f18;
-}
-
-.calendar td.outside-month {
-  background-color: #eaeaea;
-  color: #a0a0a0;
-}
-
-.calendar td button {
-  width: 100%;
-  height: 100%;
-  background: none;
-  border: none;
-  font-size: 1em;
-  cursor: pointer;
-}
-
-.calendar td button:disabled {
-  color: #a0a0a0;
-  cursor: not-allowed;
-}
-
-.calendar td.selected button {
-  background-color: #590f18;
-  color: #ffffff;
 }
 
 .bikes-selection,

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Container, Row, Col, Card } from "react-bootstrap";
+import BASE_URL from "../../config";
 
 const AreaUtente = () => {
   const [prenotazioni, setPrenotazioni] = useState([]);
@@ -16,7 +17,7 @@ const AreaUtente = () => {
       const token = localStorage.getItem("token");
       const utenteId = localStorage.getItem("userId"); // Recupera l'ID dell'utente
 
-      const response = await fetch(`https://backend.cashuboli.it/api/prenotazioni/user/${utenteId}`, {
+      const response = await fetch(`${BASE_URL}/api/prenotazioni/user/${utenteId}`, {
         method: "GET",
         headers: {
           Authorization: `Bearer ${token}`,

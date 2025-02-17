@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Button, Table } from "react-bootstrap";
+import BASE_URL from "../../config";
 
 function BookingManagement() {
   const [bookings, setBookings] = useState([]);
@@ -12,7 +13,7 @@ function BookingManagement() {
   const fetchBookings = () => {
     const token = localStorage.getItem("token");
 
-    fetch("https://backend.cashuboli.it/api/prenotazioni", {
+    fetch(`${BASE_URL}/api/prenotazioni`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -37,7 +38,7 @@ function BookingManagement() {
   const handleDeleteBooking = (id) => {
     const token = localStorage.getItem("token");
 
-    fetch(`https://backend.cashuboli.it/api/prenotazioni/${id}`, {
+    fetch(`${BASE_URL}/api/prenotazioni/${id}`, {
       method: "DELETE",
       headers: {
         Authorization: `Bearer ${token}`,
