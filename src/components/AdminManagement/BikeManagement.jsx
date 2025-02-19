@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Button, Form, Table } from "react-bootstrap";
+import { Button, Form, Table, Spinner } from "react-bootstrap";
+import Swal from "sweetalert2";
 import BASE_URL from "../../config";
 
 function BikeManagement() {
@@ -8,18 +9,17 @@ function BikeManagement() {
     modello: "",
     tipo: "",
     disponibilita: true,
-    descrizione: "", // Aggiungi la descrizione come parte dello stato
+    descrizione: "",
   });
-  const [imageFile, setImageFile] = useState(null); // Nuovo stato per il file immagine
+  const [imageFile, setImageFile] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     fetchBikes();
   }, []);
 
-  // Funzione per recuperare le biciclette
   const fetchBikes = () => {
     const token = localStorage.getItem("token");
-
     fetch(`${BASE_URL}/api/biciclette`, {
       method: "GET",
       headers: {
@@ -34,12 +34,19 @@ function BikeManagement() {
         return response.json();
       })
       .then((data) => setBikes(data))
-      .catch((error) => console.error("Errore nel caricamento delle biciclette:", error));
+      .catch((error) => console.error(error));
   };
 
-  // Funzione per creare una nuova bicicletta
   const handleCreateBike = (e) => {
     e.preventDefault();
+    Swal.fire({
+      title: "Creazione in corso...",
+      text: "Attendere il completamento dell'operazione",
+      allowOutsideClick: false,
+      didOpen: () => {
+        Swal.showLoading();
+      },
+    });
     const token = localStorage.getItem("token");
 
     fetch(`${BASE_URL}/api/biciclette`, {
@@ -58,21 +65,19 @@ function BikeManagement() {
       })
       .then((data) => {
         if (imageFile) {
-          handleUploadImage(data.id); // Carica l'immagine associata alla bicicletta
+          handleUploadImage(data.id);
         } else {
-          fetchBikes(); // Aggiorna la lista delle biciclette se non c'è nessun file
+          fetchBikes();
+          Swal.fire("Successo!", "Bicicletta creata con successo!", "success");
         }
-        setNewBike({
-          modello: "",
-          tipo: "",
-          disponibilita: true,
-          descrizione: "", // Resetta anche il campo descrizione
-        });
+        setNewBike({ modello: "", tipo: "", disponibilita: true, descrizione: "" });
+        setImageFile(null);
       })
-      .catch((error) => console.error("Errore nella creazione della bicicletta:", error));
+      .catch(() => {
+        Swal.fire("Errore!", "Impossibile creare la bicicletta.", "error");
+      });
   };
 
-  // Funzione per caricare l'immagine della bicicletta
   const handleUploadImage = (bikeId) => {
     const token = localStorage.getItem("token");
     const formData = new FormData();
@@ -89,24 +94,44 @@ function BikeManagement() {
         if (!response.ok) {
           throw new Error("Errore nel caricamento dell'immagine");
         }
-        fetchBikes(); // Aggiorna la lista delle biciclette dopo il caricamento dell'immagine
+        fetchBikes();
+        Swal.fire("Successo!", "Immagine caricata con successo!", "success");
       })
-      .catch((error) => console.error("Errore nel caricamento dell'immagine:", error));
+      .catch(() => {
+        Swal.fire("Errore!", "Impossibile caricare l'immagine.", "error");
+      });
   };
 
-  // Funzione per eliminare una bicicletta
   const handleDeleteBike = (id) => {
-    const token = localStorage.getItem("token");
+    Swal.fire({
+      title: "Sei sicuro?",
+      text: "Questa azione non può essere annullata!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3085d6",
+      confirmButtonText: "Sì, elimina!",
+      cancelButtonText: "Annulla",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        const token = localStorage.getItem("token");
 
-    fetch(`${BASE_URL}/api/biciclette/${id}`, {
-      method: "DELETE",
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-      },
-    })
-      .then(() => fetchBikes())
-      .catch((error) => console.error("Errore nella cancellazione della bicicletta:", error));
+        fetch(`${BASE_URL}/api/biciclette/${id}`, {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        })
+          .then(() => {
+            fetchBikes();
+            Swal.fire("Eliminato!", "La bicicletta è stata eliminata.", "success");
+          })
+          .catch(() => {
+            Swal.fire("Errore!", "Impossibile eliminare la bicicletta.", "error");
+          });
+      }
+    });
   };
 
   return (
@@ -137,8 +162,8 @@ function BikeManagement() {
           <Form.Label>Carica Immagine</Form.Label>
           <Form.Control type="file" onChange={(e) => setImageFile(e.target.files[0])} />
         </Form.Group>
-        <Button type="submit" className="mt-3">
-          Crea Bicicletta
+        <Button type="submit" className="mt-3" disabled={loading}>
+          {loading ? <Spinner animation="border" size="sm" /> : "Crea Bicicletta"}
         </Button>
       </Form>
 

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Button, Form, Table, Container } from "react-bootstrap";
 import BASE_URL from "../../config";
+import Swal from "sweetalert2";
 
 function TourManagement() {
   const [tours, setTours] = useState([]);
@@ -51,8 +52,16 @@ function TourManagement() {
       return;
     }
 
+    Swal.fire({
+      title: "Creazione in corso...",
+      text: "Attendere il completamento dell'operazione",
+      allowOutsideClick: false,
+      didOpen: () => {
+        Swal.showLoading();
+      },
+    });
+
     try {
-      // Prima creazione del tour
       const response = await fetch(`${BASE_URL}/api/tours`, {
         method: "POST",
         headers: {
@@ -63,20 +72,16 @@ function TourManagement() {
       });
 
       if (!response.ok) {
-        throw new Error("Errore nella creazione del tour");
+        const errorText = await response.text();
+        throw new Error(`Errore nella creazione del tour: ${errorText}`);
       }
 
-      const createdTour = await response.json(); // Recupera il tour creato
-
-      // Se c'è un'immagine, effettua il caricamento
+      const createdTour = await response.json();
       if (imageFile) {
         await handleUploadImage(createdTour.id);
       }
 
-      // Aggiorna la lista dei tour
       fetchTours();
-
-      // Resetta il form
       setNewTour({
         name: "",
         description: "",
@@ -88,9 +93,11 @@ function TourManagement() {
         descrizioneCompleta: "",
         accessoriInclusi: "",
       });
-      setImageFile(null); // Reset del file immagine
+      setImageFile(null);
+      Swal.fire("Successo!", "Tour creato con successo!", "success");
     } catch (error) {
       console.error("Errore nella creazione del tour:", error);
+      Swal.fire("Errore!", `Impossibile creare il tour: ${error.message}`, "error");
     }
   };
 
@@ -99,6 +106,16 @@ function TourManagement() {
     const token = localStorage.getItem("token");
     const formData = new FormData();
     formData.append("image", imageFile);
+
+    // Mostra un alert di caricamento
+    Swal.fire({
+      title: "Caricamento immagine...",
+      text: "Attendere il completamento dell'operazione",
+      allowOutsideClick: false,
+      didOpen: () => {
+        Swal.showLoading();
+      },
+    });
 
     try {
       const response = await fetch(`${BASE_URL}/api/tours/${tourId}/image`, {
@@ -115,24 +132,47 @@ function TourManagement() {
 
       // Aggiorna la lista dei tour dopo il caricamento dell'immagine
       fetchTours();
+
+      // Mostra un alert di successo
+      Swal.fire("Successo!", "Immagine caricata con successo!", "success");
     } catch (error) {
       console.error("Errore nel caricamento dell'immagine:", error);
+      // Mostra un alert di errore
+      Swal.fire("Errore!", "Impossibile caricare l'immagine.", "error");
     }
   };
 
   // Funzione per eliminare un tour
   const handleDeleteTour = (id) => {
-    const token = localStorage.getItem("token");
+    Swal.fire({
+      title: "Sei sicuro?",
+      text: "Questa azione non può essere annullata!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3085d6",
+      confirmButtonText: "Sì, elimina!",
+      cancelButtonText: "Annulla",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        const token = localStorage.getItem("token");
 
-    fetch(`${BASE_URL}/api/tours/${id}`, {
-      method: "DELETE",
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-      },
-    })
-      .then(() => fetchTours())
-      .catch((error) => console.error("Errore nella cancellazione del tour:", error));
+        fetch(`${BASE_URL}/api/tours/${id}`, {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        })
+          .then(() => {
+            fetchTours();
+            Swal.fire("Eliminato!", "Il tour è stato eliminato.", "success");
+          })
+          .catch(() => {
+            Swal.fire("Errore!", "Impossibile eliminare il tour.", "error");
+          });
+      }
+    });
   };
 
   return (

@@ -10,6 +10,7 @@ import Logo from "../../asset/img/logo.png";
 import { Link, useNavigate } from "react-router-dom";
 import BASE_URL from "../../config";
 import Swal from "sweetalert2";
+import Header from "../Header/Header";
 
 function BarraNavigazione() {
   const [showLogin, setShowLogin] = useState(false);
@@ -130,7 +131,8 @@ function BarraNavigazione() {
     setRole("");
     setUserId("");
     Swal.fire({
-      title: "Stai lasciando la tua area riservata! Arrivederci " + username,
+      title: "Arrivederci " + username,
+      text: "A presto!",
       confirmButtonColor: "#b22222",
     });
     navigate("/");

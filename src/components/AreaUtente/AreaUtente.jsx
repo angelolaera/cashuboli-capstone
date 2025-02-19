@@ -30,7 +30,7 @@ const AreaUtente = () => {
       setPrenotazioni(data);
     } catch (err) {
       console.error("Errore:", err);
-      setError("Non è stato possibile recuperare le prenotazioni");
+      setError("Non ci sono prenotazioni disponibili.");
     } finally {
       setLoading(false);
     }

@@ -33,7 +33,7 @@ function Bici() {
       <Row className="mt-5">
         {bikes.map((bike) => (
           <Col key={bike.id} xs={4}>
-            <Card className="border border-0">
+            <Card className="border border-0 mt-2">
               <Card.Img variant="top" src={bike.imageUrl} alt={bike.modello} />
               <Card.Body>
                 <Card.Title className="cardtitle">{bike.modello}</Card.Title>

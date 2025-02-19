@@ -51,7 +51,7 @@ function TourMasserie() {
       <Row>
         {tours.map((tour) => (
           <Col key={tour.id} xs={4}>
-            <Card className="border border-1">
+            <Card className="border border-1 mt-2">
               <Card.Img variant="top" src={tour.imageUrl} />
               <Card.Body>
                 <Card.Title className="cardtitle">{tour.name}</Card.Title>
@@ -62,7 +62,9 @@ function TourMasserie() {
                   <Button className="mt-3" onClick={() => handleShowDetails(tour)}>
                     Dettagli
                   </Button>
-                  <Badge className="priceBadge ms-auto mt-3">€{tour.price}</Badge>
+                  <Badge className="priceBadge ms-auto mt-3" bsPrefix="custom-badge" pill>
+                    €{tour.price}
+                  </Badge>
                 </div>
               </Card.Body>
             </Card>

@@ -4,6 +4,10 @@
 
 .priceBadge {
   background-color: #590f18 !important;
+  color: white;
+  padding: 5px 10px;
+  font-size: 12px;
+  border-radius: 5px;
 }
 
 h2 {

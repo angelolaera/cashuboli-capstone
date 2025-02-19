@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Form, Button, Row, Col, Container, InputGroup, Card } from "react-bootstrap";
+import { Form, Button, Row, Col, Container, InputGroup, Card, Modal } from "react-bootstrap";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -7,11 +7,14 @@ import dayjs from "dayjs";
 import BASE_URL from "../../config";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination } from "swiper/modules"; // Importa i moduli necessari
-
+import "animate.css";
 import "swiper/css";
 import "swiper/css/pagination";
 import { StaticDatePicker } from "@mui/x-date-pickers";
 import { createTheme, ThemeProvider } from "@mui/material";
+import foto_acquedotto from "../../asset/img/percorso_acquesotto.jpg";
+import Swal from "sweetalert2";
+import { Navigate } from "react-router-dom";
 
 const countryList = [
   "Afghanistan",
@@ -446,11 +449,15 @@ const TourBooking = () => {
   const [bikes, setBikes] = useState([]);
   const [tours, setTour] = useState([]);
   const [selectedDate, setSelectedDate] = useState(dayjs());
+  const [selectedBike, setSelectedBike] = useState(null);
+  const [selectedTour, setSelectedTour] = useState(null);
+  const [showModal, setShowModal] = useState(false);
   // Stato iniziale del form con variabili per ogni campo
   const [formData, setFormData] = useState({
     name: "",
     surname: "",
     email: "",
+    phonePrefix: "+39",
     phone: "",
     address: "",
     city: "",
@@ -458,6 +465,8 @@ const TourBooking = () => {
     date: "",
     partecipants: "",
     privacyAccepted: false,
+    price: tours.price,
+    informazioniAggiuntive: "",
   });
 
   const handleChange = (e) => {
@@ -474,6 +483,7 @@ const TourBooking = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setShowModal(true);
     console.log(formData);
   };
 
@@ -516,13 +526,108 @@ const TourBooking = () => {
       .catch((error) => console.error("Errore nel caricamento del tour:", error));
   };
 
+  const handleConfirm = () => {
+    const bookingData = {
+      tourId: selectedTour?.id ?? null,
+      biciclettaId: selectedBike?.id ?? null,
+      numeroBiciclettePrenotate: parseInt(formData.partecipants, 10),
+      email: formData.email, // Aggiunto il campo email
+      telefono: `${formData.phonePrefix}${formData.phone}`, // Aggiunto il campo telefono
+      selectedDate: selectedDate ? selectedDate.format("YYYY-MM-DD") : null,
+      informazioniAggiuntive: formData.informazioniAggiuntive,
+    };
+
+    // Log per debugging
+    console.log("📤 JSON inviato al backend:", JSON.stringify(bookingData, null, 2));
+
+    fetch(`${BASE_URL}/api/prenotazioni`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+      body: JSON.stringify(bookingData),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          return response.text().then((text) => {
+            throw new Error(`Errore HTTP ${response.status}: ${text}`);
+          });
+        }
+        return response.json();
+      })
+      .then((data) =>
+        Swal.fire({
+          icon: "success",
+          title: "PRENOTAZIONE EFFETTUATA CON SUCCESSO!",
+          text: data.message || "Verrai presto contattato da un nostro consulente per definire nei dettagli la tua prenotazione.",
+          confirmButtonColor: "#b22222",
+        })
+      )
+      .catch((error) =>
+        Swal.fire({
+          icon: "warning",
+          title: "ATTENZIONE!",
+          text: "Verifica di aver effettuato il login( è necessario registrarsi alla piattaforma )!\n Oppure verifica di aver compilato correttamente tutti i campi del form e di aver selezionato un modello di bici e un tour desiderato.",
+          confirmButtonColor: "#b22222",
+        })
+      );
+  };
+
   return (
     <Container>
-      <h1 className=" my-4" style={{ color: "#590f18", fontFamily: "Oswald, sans-serif", fontSize: "4em", fontWeight: 700 }}>
-        PRENOTA UN TOUR!
-      </h1>
+      <Row className="mt-3 mb-5">
+        <Col xs={12} md={6} className="animate__animated animate__fadeInLeft">
+          {" "}
+          <h1 className="text-center" style={{ color: "#590f18", fontFamily: "Oswald, sans-serif", fontSize: "4em", fontWeight: 700 }}>
+            PRENOTA UN TOUR!
+          </h1>
+          <p style={{ fontFamily: "Sanchez", fontSize: "17px" }}>
+            🌿 <b>Scopri il fascino della natura con i nostri tour esclusivi!</b> 🌿
+            <br /> Sali in sella e lasciati guidare attraverso paesaggi mozzafiato, strade immerse nel verde e luoghi ricchi di storia e tradizione. <br />
+            <br />
+            <b>Con i nostri tour, potrai:</b> <br />
+            ✅ Esplorare percorsi unici tra colline, borghi antichi e sentieri panoramici.
+            <br />
+            ✅ Goderti un’esperienza su misura, scegliendo il tour più adatto a te. <br />
+            ✅ Affidarti a guide esperte che ti condurranno alla scoperta di angoli nascosti.
+            <br />
+            ✅ Noleggiare bici di alta qualità, per un’avventura senza pensieri.
+            <br />
+            <br />
+            🚴Prenota ora e preparati a vivere un’esperienza indimenticabile🚴
+            <br />
+            🔽 Scegli il tuo tour e inizia il viaggio! 🔽 <br />
+          </p>
+        </Col>
+        <Col xs={12} md={6} className="d-flex flex-column justify-content-center">
+          <div>
+            {" "}
+            <img
+              src={foto_acquedotto}
+              alt="foto_acquedotto"
+              className="w-100  animate__animated animate__fadeInRight"
+              style={{
+                borderRadius: "30% 70% 31% 69% / 45% 27% 73% 55%", // Corretto come stringa
+                maxWidth: "100%", // Evita overflow
+                height: "auto", // Mantiene proporzioni corrette
+                boxShadow: "5px 5px 15px rgba(0, 0, 0, 0.2)", // Effetto ombra per un look moderno
+                transition: "border-radius 0.5s ease-in-out", // Effetto fluido sui cambiamenti
+              }}
+            />
+          </div>
+        </Col>
+      </Row>
 
-      <Form onSubmit={handleSubmit}>
+      <p style={{ fontSize: "12px", fontFamily: "Sanchez" }} className="mb-4">
+        📌 Compila il modulo con i tuoi dati 📌
+        <br />
+        <br /> Ti chiediamo gentilmente di inserire le tue informazioni personali nel modulo sottostante. Questo ci permetterà di contattarti nel più breve
+        tempo possibile per <b>confermare la tua prenotazione</b> e fornirti tutti i dettagli necessari. <br /> Assicurati di fornire un indirizzo email e un
+        numero di telefono validi per poter essere ricontattati subito e ricevere assistenza personalizzata. <br /> Grazie per la tua collaborazione!
+      </p>
+
+      <Form onSubmit={handleSubmit} style={{ fontFamily: "Oswald" }}>
         <Row className="mb-3">
           <Col xs={12} md={8} lg={4} xl={3}>
             <Form.Group>
@@ -600,6 +705,16 @@ const TourBooking = () => {
             </Form.Group>
           </Col>
         </Row>
+
+        <Row>
+          <Col xs={12} md={8} lg={4} xl={3}>
+            <Form.Group>
+              <Form.Label>Informazioni aggiuntive</Form.Label>
+              <Form.Control as="textarea" rows={5} name="informazioniAggiuntive" value={formData.informazioniAggiuntive} onChange={handleChange} />
+            </Form.Group>
+          </Col>
+        </Row>
+
         <Row className="justify-content-between">
           <Col xs={12} md={8} lg={8} xl={8} className="p-3">
             <Row>
@@ -615,9 +730,9 @@ const TourBooking = () => {
                 className="mySwiper"
               >
                 {bikes.map((bike) => (
-                  <SwiperSlide>
+                  <SwiperSlide key={bike.id} onClick={() => setSelectedBike(bike)}>
                     <Col key={bike.id} xs={12}>
-                      <Card className="border border-0">
+                      <Card className={selectedBike?.id === bike.id ? "border-primary" : ""}>
                         <Card.Img variant="top" src={bike.imageUrl} alt={bike.modello} />
                         <Card.Body>
                           <Card.Title className="cardtitle text-center">{bike.modello}</Card.Title>
@@ -641,9 +756,9 @@ const TourBooking = () => {
                 className="mySwiper"
               >
                 {tours.map((tour) => (
-                  <SwiperSlide>
+                  <SwiperSlide key={tour.id} onClick={() => setSelectedTour(tour)}>
                     <Col key={tour.id} xs={12}>
-                      <Card className="border border-0">
+                      <Card className={selectedTour?.id === tour.id ? "border-primary" : ""}>
                         <Card.Img variant="top" src={tour.imageUrl} alt={tour.name} />
                         <Card.Body>
                           <Card.Title className="cardtitle text-center">{tour.name}</Card.Title>
@@ -677,10 +792,44 @@ const TourBooking = () => {
                 required
               />
             </Form.Group>
-            <Button type="submit">Invia</Button>
+            <Button type="submit">Prenota</Button>
           </Col>
         </Row>
       </Form>
+
+      <Modal show={showModal} onHide={() => setShowModal(false)}>
+        <Modal.Header closeButton>
+          <Modal.Title>Conferma la tua prenotazione</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <p>
+            <strong>Nome:</strong> {formData.name}
+          </p>
+          <p>
+            <strong>Cognome:</strong> {formData.surname}
+          </p>
+          <p>
+            <strong>Email:</strong> {formData.email}
+          </p>
+          <p>
+            <strong>Bici Selezionata:</strong> {selectedBike?.modello}
+          </p>
+          <p>
+            <strong>Tour Selezionato:</strong> {selectedTour?.name}
+          </p>
+          <p>
+            <strong>Data:</strong> {selectedDate.format("YYYY-MM-DD")}
+          </p>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={() => setShowModal(false)}>
+            Modifica
+          </Button>
+          <Button variant="primary" onClick={handleConfirm}>
+            Conferma Prenotazione
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </Container>
   );
 };
