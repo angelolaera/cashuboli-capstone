@@ -140,15 +140,21 @@ function BikeManagement() {
       <Form onSubmit={handleCreateBike}>
         <Form.Group controlId="modello">
           <Form.Label>Modello</Form.Label>
-          <Form.Control type="text" value={newBike.modello} onChange={(e) => setNewBike({ ...newBike, modello: e.target.value })} required />
+          <Form.Control className="w-50" type="text" value={newBike.modello} onChange={(e) => setNewBike({ ...newBike, modello: e.target.value })} required />
         </Form.Group>
         <Form.Group controlId="tipo">
           <Form.Label>Tipo</Form.Label>
-          <Form.Control type="text" value={newBike.tipo} onChange={(e) => setNewBike({ ...newBike, tipo: e.target.value })} required />
+          <Form.Control className="w-50" type="text" value={newBike.tipo} onChange={(e) => setNewBike({ ...newBike, tipo: e.target.value })} required />
         </Form.Group>
         <Form.Group controlId="descrizione">
           <Form.Label>Descrizione</Form.Label>
-          <Form.Control type="text" value={newBike.descrizione} onChange={(e) => setNewBike({ ...newBike, descrizione: e.target.value })} required />
+          <Form.Control
+            className="w-50"
+            type="text"
+            value={newBike.descrizione}
+            onChange={(e) => setNewBike({ ...newBike, descrizione: e.target.value })}
+            required
+          />
         </Form.Group>
         <Form.Group controlId="disponibilita" className="mt-3">
           <Form.Check
@@ -160,7 +166,7 @@ function BikeManagement() {
         </Form.Group>
         <Form.Group controlId="image" className="mt-3">
           <Form.Label>Carica Immagine</Form.Label>
-          <Form.Control type="file" onChange={(e) => setImageFile(e.target.files[0])} />
+          <Form.Control className="w-50" type="file" onChange={(e) => setImageFile(e.target.files[0])} />
         </Form.Group>
         <Button type="submit" className="mt-3" disabled={loading}>
           {loading ? <Spinner animation="border" size="sm" /> : "Crea Bicicletta"}

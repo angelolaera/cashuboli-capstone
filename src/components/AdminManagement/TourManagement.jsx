@@ -176,29 +176,42 @@ function TourManagement() {
   };
 
   return (
-    <Container>
+    <>
       <h2>Gestisci Tour</h2>
       <Form onSubmit={handleCreateTour}>
         {/* Campi per creare un nuovo tour */}
         <Form.Group controlId="name">
           <Form.Label>Nome Tour</Form.Label>
-          <Form.Control type="text" value={newTour.name} onChange={(e) => setNewTour({ ...newTour, name: e.target.value })} required />
+          <Form.Control className="w-50" type="text" value={newTour.name} onChange={(e) => setNewTour({ ...newTour, name: e.target.value })} required />
         </Form.Group>
         <Form.Group controlId="description">
           <Form.Label>Descrizione Tour</Form.Label>
-          <Form.Control type="text" value={newTour.description} onChange={(e) => setNewTour({ ...newTour, description: e.target.value })} required />
+          <Form.Control
+            className="w-50"
+            type="text"
+            value={newTour.description}
+            onChange={(e) => setNewTour({ ...newTour, description: e.target.value })}
+            required
+          />
         </Form.Group>
         <Form.Group controlId="price">
           <Form.Label>Prezzo Tour</Form.Label>
-          <Form.Control type="number" value={newTour.price} onChange={(e) => setNewTour({ ...newTour, price: e.target.value })} required />
+          <Form.Control className="w-50" type="number" value={newTour.price} onChange={(e) => setNewTour({ ...newTour, price: e.target.value })} required />
         </Form.Group>
         <Form.Group controlId="maxParticipants">
           <Form.Label>Numero Massimo Partecipanti</Form.Label>
-          <Form.Control type="number" value={newTour.maxParticipants} onChange={(e) => setNewTour({ ...newTour, maxParticipants: e.target.value })} required />
+          <Form.Control
+            className="w-50"
+            type="number"
+            value={newTour.maxParticipants}
+            onChange={(e) => setNewTour({ ...newTour, maxParticipants: e.target.value })}
+            required
+          />
         </Form.Group>
         <Form.Group controlId="lunghezzaItinerario">
           <Form.Label>Lunghezza Itinerario in Km</Form.Label>
           <Form.Control
+            className="w-50"
             type="text"
             value={newTour.lunghezzaItinerario}
             onChange={(e) => setNewTour({ ...newTour, lunghezzaItinerario: e.target.value })}
@@ -208,6 +221,7 @@ function TourManagement() {
         <Form.Group controlId="tempoMedioPercorrenza">
           <Form.Label>Tempo Medio di Percorrenza</Form.Label>
           <Form.Control
+            className="w-50"
             type="text"
             value={newTour.tempoMedioPercorrenza}
             onChange={(e) => setNewTour({ ...newTour, tempoMedioPercorrenza: e.target.value })}
@@ -217,6 +231,7 @@ function TourManagement() {
         <Form.Group controlId="linguaAccoglienza">
           <Form.Label>Lingua del Personale di Accoglienza</Form.Label>
           <Form.Control
+            className="w-50"
             type="text"
             value={newTour.linguaAccoglienza}
             onChange={(e) => setNewTour({ ...newTour, linguaAccoglienza: e.target.value })}
@@ -226,6 +241,7 @@ function TourManagement() {
         <Form.Group controlId="descrizioneCompleta">
           <Form.Label>Descrizione Completa del Tour</Form.Label>
           <Form.Control
+            className="w-50"
             as="textarea"
             value={newTour.descrizioneCompleta}
             onChange={(e) => setNewTour({ ...newTour, descrizioneCompleta: e.target.value })}
@@ -234,11 +250,17 @@ function TourManagement() {
         </Form.Group>
         <Form.Group controlId="accessoriInclusi">
           <Form.Label>Accessori Inclusi</Form.Label>
-          <Form.Control type="text" value={newTour.accessoriInclusi} onChange={(e) => setNewTour({ ...newTour, accessoriInclusi: e.target.value })} required />
+          <Form.Control
+            className="w-50"
+            type="text"
+            value={newTour.accessoriInclusi}
+            onChange={(e) => setNewTour({ ...newTour, accessoriInclusi: e.target.value })}
+            required
+          />
         </Form.Group>
         <Form.Group controlId="image" className="mt-2">
           <Form.Label>Carica Immagine Copertina Tour</Form.Label>
-          <Form.Control type="file" onChange={(e) => setImageFile(e.target.files[0])} />
+          <Form.Control className="w-50" type="file" onChange={(e) => setImageFile(e.target.files[0])} />
         </Form.Group>
         <Button type="submit" className="mt-3">
           Crea Tour
@@ -283,7 +305,7 @@ function TourManagement() {
           </tbody>
         </Table>
       </div>
-    </Container>
+    </>
   );
 }
 

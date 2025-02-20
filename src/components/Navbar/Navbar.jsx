@@ -113,6 +113,7 @@ function BarraNavigazione() {
           icon: "success",
           title: "Registrazione avvenuta con successo! Riceverai una mail di conferma per attivare il tuo account. Controlla la tua casella di posta.",
           confirmButtonColor: "#b22222",
+          confirmButtonText: "OK",
         });
         handleCloseRegister();
         navigate("/"); // Torna alla homepage dopo la registrazione

@@ -131,55 +131,62 @@ function BookingManagement() {
           </Spinner>
         </div>
       ) : (
-        <Table striped bordered hover className="mt-4">
-          <thead>
-            <tr>
-              <th>ID Utente</th>
-              <th>Nominativo</th>
-              <th>Tour</th>
-              <th>Bicicletta</th>
-              <th>Data Prenotazione</th>
-              <th>Numero Biciclette Prenotate</th>
-              <th>Informazioni Aggiuntive</th>
-              <th>Prezzo Totale €</th>
-              <th>Stato Prenotazione</th>
-              <th>Azioni</th>
-            </tr>
-          </thead>
-          <tbody>
-            {bookings.filter((booking) => booking.stato !== "CANCELLATA").length > 0 ? (
-              bookings
-                .filter((booking) => booking.stato !== "CANCELLATA") // Filtra le prenotazioni cancellate
-                .map((booking) => (
-                  <tr key={booking.id}>
-                    <td>{booking.utente.id}</td>
-                    <td>{booking.utente.nome + " " + booking.utente.cognome}</td>
-                    <td>{booking.tour.name}</td>
-                    <td>{booking.bicicletta.modello}</td>
-                    <td>{booking.dataPrenotazione}</td>
-                    <td>{booking.numeroBiciclettePrenotate}</td>
-                    <td>{booking.informazioniAggiuntive || "Nessuna info"}</td>
-                    <td>{booking.totalePrezzo.toFixed(2) + "€"}</td>
-                    <td>{booking.stato}</td>
-                    <td className="d-flex justify-content-center gap-2 align-items-center">
-                      <Button variant="success" className="me-2" onClick={() => handleConfirmBooking(booking.id)}>
-                        Conferma
-                      </Button>
-                      <Button variant="danger" onClick={() => handleDeleteBooking(booking.id)}>
-                        Elimina
-                      </Button>
-                    </td>
-                  </tr>
-                ))
-            ) : (
+        <div className="d-flex justify-content-center">
+          {" "}
+          <Table striped bordered hover className="mt-4">
+            <thead>
               <tr>
-                <td colSpan="10" className="text-center">
-                  Nessuna prenotazione disponibile.
-                </td>
+                <th>ID Utente</th>
+                <th>Nominativo</th>
+                <th>Tour</th>
+                <th>Bicicletta</th>
+                <th>Data Prenotazione</th>
+                <th>Numero Biciclette Prenotate</th>
+                <th>Informazioni Aggiuntive</th>
+                <th>Email</th>
+                <th>Telefono/Cellulare</th>
+                <th>Prezzo Totale €</th>
+                <th>Stato Prenotazione</th>
+                <th>Azioni</th>
               </tr>
-            )}
-          </tbody>
-        </Table>
+            </thead>
+            <tbody>
+              {bookings.filter((booking) => booking.stato !== "CANCELLATA").length > 0 ? (
+                bookings
+                  .filter((booking) => booking.stato !== "CANCELLATA") // Filtra le prenotazioni cancellate
+                  .map((booking) => (
+                    <tr key={booking.id}>
+                      <td>{booking.utente.id}</td>
+                      <td>{booking.utente.nome + " " + booking.utente.cognome}</td>
+                      <td>{booking.tour.name}</td>
+                      <td>{booking.bicicletta.modello}</td>
+                      <td>{booking.dataPrenotazione}</td>
+                      <td>{booking.numeroBiciclettePrenotate}</td>
+                      <td>{booking.informazioniAggiuntive || "Nessuna info"}</td>
+                      <td>{booking.email}</td>
+                      <td>{booking.telefono}</td>
+                      <td>{booking.totalePrezzo.toFixed(2) + "€"}</td>
+                      <td>{booking.stato}</td>
+                      <td className="d-flex justify-content-center gap-2 align-items-center">
+                        <Button variant="success" className="me-2" onClick={() => handleConfirmBooking(booking.id)}>
+                          Conferma
+                        </Button>
+                        <Button variant="danger" onClick={() => handleDeleteBooking(booking.id)}>
+                          Elimina
+                        </Button>
+                      </td>
+                    </tr>
+                  ))
+              ) : (
+                <tr>
+                  <td colSpan="10" className="text-center">
+                    Nessuna prenotazione disponibile.
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </Table>
+        </div>
       )}
     </div>
   );

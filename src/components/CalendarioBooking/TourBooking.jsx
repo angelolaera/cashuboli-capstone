@@ -799,7 +799,7 @@ const TourBooking = () => {
 
       <Modal show={showModal} onHide={() => setShowModal(false)}>
         <Modal.Header closeButton>
-          <Modal.Title>Conferma la tua prenotazione</Modal.Title>
+          <Modal.Title>Conferma la tua prenotazione</Modal.Title>w
         </Modal.Header>
         <Modal.Body>
           <p>

@@ -8,23 +8,21 @@ function AdminDashboard() {
   const [key, setKey] = useState("tour"); // Imposta la tab iniziale
 
   return (
-    <Container>
-      <div className="admin-page">
-        <h2 className="admin-title my-4">Admin Dashboard</h2>
+    <div className="admin-page p-3">
+      <h2 className="admin-title my-4">Admin Dashboard</h2>
 
-        <Tabs id="admin-tabs" activeKey={key} onSelect={(k) => setKey(k)} className="mb-3">
-          <Tab eventKey="tour" title="Gestisci Tour">
-            <TourManagement />
-          </Tab>
-          <Tab eventKey="bike" title="Gestisci Biciclette">
-            <BikeManagement />
-          </Tab>
-          <Tab eventKey="booking" title="Gestisci Prenotazioni">
-            <BookingManagement />
-          </Tab>
-        </Tabs>
-      </div>
-    </Container>
+      <Tabs id="admin-tabs" activeKey={key} onSelect={(k) => setKey(k)} className="mb-3">
+        <Tab eventKey="tour" title="Gestisci Tour">
+          <TourManagement />
+        </Tab>
+        <Tab eventKey="bike" title="Gestisci Biciclette">
+          <BikeManagement />
+        </Tab>
+        <Tab eventKey="booking" title="Gestisci Prenotazioni">
+          <BookingManagement />
+        </Tab>
+      </Tabs>
+    </div>
   );
 }
 export default AdminDashboard;
