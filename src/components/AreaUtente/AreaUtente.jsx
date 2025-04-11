@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Container, Row, Col, Card } from "react-bootstrap";
+import { Container } from "react-bootstrap";
 import BASE_URL from "../../config";
 
 const AreaUtente = () => {
@@ -15,7 +15,7 @@ const AreaUtente = () => {
     try {
       setLoading(true);
       const token = localStorage.getItem("token");
-      const utenteId = localStorage.getItem("userId"); // Recupera l'ID dell'utente
+      const utenteId = localStorage.getItem("userId");
 
       const response = await fetch(`${BASE_URL}/api/prenotazioni/user/${utenteId}`, {
         method: "GET",
@@ -36,34 +36,57 @@ const AreaUtente = () => {
     }
   };
 
+  const isDataPassata = (dataPrenotazione) => {
+    const oggi = new Date();
+    const dataPrenotazioneObj = new Date(dataPrenotazione);
+    // Imposta l'ora a mezzanotte per confrontare solo le date
+    oggi.setHours(0, 0, 0, 0);
+    dataPrenotazioneObj.setHours(0, 0, 0, 0);
+    return dataPrenotazioneObj < oggi;
+  };
+
   if (loading) return <p>Caricamento in corso...</p>;
   if (error) return <p>{error}</p>;
 
   return (
     <Container className="mt-5">
       <h2 className="text-center">Il Tuo Storico Prenotazioni</h2>
-      <Row className="mt-4">
+      <ul className="list-unstyled mt-4">
         {prenotazioni.length === 0 ? (
           <p className="text-center">Non hai ancora effettuato prenotazioni.</p>
         ) : (
           prenotazioni.map((prenotazione) => (
-            <Col xs={12} md={6} lg={4} key={prenotazione.id} className="mb-4">
-              <Card>
-                <Card.Body>
-                  <Card.Title>Tour: {prenotazione.tour.name}</Card.Title>
-                  <Card.Subtitle className="mb-2 text-muted">Data: {prenotazione.dataPrenotazione}</Card.Subtitle>
-                  <Card.Text>
-                    <strong>Bicicletta:</strong> {prenotazione.bicicletta.modello} <br />
-                    <strong>Numero di biciclette:</strong> {prenotazione.numeroBiciclettePrenotate} <br />
-                    <strong>Prezzo Totale:</strong> €{prenotazione.totalePrezzo} <br />
-                    <strong>Stato:</strong> {prenotazione.stato}
-                  </Card.Text>
-                </Card.Body>
-              </Card>
-            </Col>
+            <li
+              key={prenotazione.id}
+              className="mb-3 p-3 rounded border"
+              style={{
+                backgroundColor: "#f8f9fa",
+                display: isDataPassata(prenotazione.dataPrenotazione) ? "none" : "block",
+              }}
+            >
+              <div className="d-flex justify-content-between align-items-center">
+                <h5 className="mb-0">{prenotazione.tour.name}</h5>
+                <small className="text-muted">{prenotazione.dataPrenotazione}</small>
+              </div>
+              <div className="mt-2">
+                <p className="mb-1">
+                  <strong>Bicicletta:</strong> {prenotazione.bicicletta.modello}
+                </p>
+                <p className="mb-1">
+                  <strong>Numero:</strong> {prenotazione.numeroBiciclettePrenotate}
+                </p>
+                <p className="mb-1">
+                  <strong>Totale:</strong> €{prenotazione.totalePrezzo}
+                </p>
+                <p className="mb-0">
+                  <strong>Stato:</strong> {prenotazione.stato}
+                </p>
+                <small>{prenotazione.note}</small>
+              </div>
+            </li>
           ))
         )}
-      </Row>
+      </ul>
     </Container>
   );
 };

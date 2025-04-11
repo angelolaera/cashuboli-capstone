@@ -622,9 +622,10 @@ const TourBooking = () => {
       <p style={{ fontSize: "12px", fontFamily: "Sanchez" }} className="mb-4">
         📌 Compila il modulo con i tuoi dati 📌
         <br />
-        <br /> Ti chiediamo gentilmente di inserire le tue informazioni personali nel modulo sottostante. Questo ci permetterà di contattarti nel più breve
-        tempo possibile per <b>confermare la tua prenotazione</b> e fornirti tutti i dettagli necessari. <br /> Assicurati di fornire un indirizzo email e un
-        numero di telefono validi per poter essere ricontattati subito e ricevere assistenza personalizzata. <br /> Grazie per la tua collaborazione!
+        <br /> Ti chiediamo gentilmente di inserire le tue informazioni personali nel modulo sottostante. Questo ci permetterà di{" "}
+        <b>contattarti nel più breve tempo possibile</b> per <b>confermare la tua prenotazione</b> e fornirti tutti i dettagli necessari. <br /> Assicurati di
+        fornire un indirizzo email e un numero di telefono validi per poter essere ricontattati subito e ricevere assistenza personalizzata. <br /> Grazie per
+        la tua collaborazione!
       </p>
 
       <Form onSubmit={handleSubmit} style={{ fontFamily: "Oswald" }}>
@@ -710,7 +711,16 @@ const TourBooking = () => {
           <Col xs={12} md={8} lg={4} xl={3}>
             <Form.Group>
               <Form.Label>Informazioni aggiuntive</Form.Label>
-              <Form.Control as="textarea" rows={5} name="informazioniAggiuntive" value={formData.informazioniAggiuntive} onChange={handleChange} />
+
+              <Form.Control
+                as="textarea"
+                rows={5}
+                name="informazioniAggiuntive"
+                value={formData.informazioniAggiuntive}
+                onChange={handleChange}
+                style={{ fontSize: "12px" }}
+                placeholder=" Inserisci informazioni aggiuntive per la tua prenotazione, maggiori saranno le informazioni, meglio verrà gestita la sua prenotazione. Grazie"
+              />
             </Form.Group>
           </Col>
         </Row>

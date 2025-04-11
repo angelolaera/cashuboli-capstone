@@ -27,3 +27,105 @@
   text-align: center;
   height: 100%;
 }
+
+.carousel .carousel-indicators {
+  display: none;
+}
+
+.carousel .carousel-control-prev,
+.carousel .carousel-control-next {
+  display: none;
+}
+
+/* Schermi molto piccoli (fino a 375px - iPhone SE e simili) */
+@media (max-width: 375px) {
+  .title {
+    font-size: 1.5rem;
+  }
+
+  .paragraph {
+    font-size: 0.7rem;
+    display: none;
+  }
+
+  .immagine {
+    height: 10em;
+  }
+}
+
+/* Schermi piccoli (da 376px a 575px - iPhone più grandi e altri piccoli smartphone) */
+@media (min-width: 376px) and (max-width: 575px) {
+  .title {
+    font-size: 1.8rem;
+  }
+
+  .paragraph {
+    font-size: 0.75rem;
+    display: none;
+  }
+
+  .immagine {
+    height: 12em;
+  }
+}
+
+/* Schermi medi (da 576px a 767px - smartphone più grandi in landscape e alcuni tablet piccoli) */
+@media (min-width: 576px) and (max-width: 767px) {
+  .title {
+    font-size: 2.2rem;
+  }
+
+  .paragraph {
+    font-size: 0.85rem;
+    display: none;
+  }
+
+  .immagine {
+    height: 16em;
+  }
+}
+
+/* Schermi tablet (da 768px a 991px - iPad e tablet Android) */
+@media (min-width: 768px) and (max-width: 991px) {
+  .title {
+    font-size: 3rem;
+  }
+
+  .paragraph {
+    font-size: 0.9rem;
+  }
+
+  .immagine {
+    height: 20em;
+  }
+}
+
+/* Schermi desktop (da 992px a 1199px - laptop piccoli e monitor) */
+@media (min-width: 992px) and (max-width: 1199px) {
+  .title {
+    font-size: 4rem;
+  }
+
+  .paragraph {
+    font-size: 1rem;
+  }
+
+  .immagine {
+    height: 25em;
+  }
+}
+
+/* Schermi desktop grandi (da 1200px in su - monitor più grandi) */
+@media (min-width: 1200px) {
+  .title {
+    font-size: 5rem;
+  }
+
+  .paragraph {
+    font-size: inherit;
+  }
+
+  .immagine {
+    height: 30em;
+  }
+}

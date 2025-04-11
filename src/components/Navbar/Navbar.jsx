@@ -111,12 +111,13 @@ function BarraNavigazione() {
       .then((data) => {
         Swal.fire({
           icon: "success",
-          title: "Registrazione avvenuta con successo! Riceverai una mail di conferma per attivare il tuo account. Controlla la tua casella di posta.",
+          title: "Registrazione avvenuta con successo!",
+          text: "Riceverai una mail di avvenuta registrazione. Ora puoi effettuare il login!", // Messaggio modificato
           confirmButtonColor: "#b22222",
           confirmButtonText: "OK",
         });
         handleCloseRegister();
-        navigate("/"); // Torna alla homepage dopo la registrazione
+        navigate("/login"); // Reindirizza alla pagina di login
       })
       .catch((error) => {
         console.error("Errore durante la registrazione:", error);
