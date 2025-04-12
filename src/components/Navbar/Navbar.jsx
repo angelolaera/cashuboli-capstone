@@ -10,7 +10,8 @@ import Logo from "../../asset/img/logo.png";
 import { Link, useNavigate } from "react-router-dom";
 import BASE_URL from "../../config";
 import Swal from "sweetalert2";
-import Header from "../Header/Header";
+import "../Navbar/Navbar.css";
+import { Col } from "react-bootstrap";
 
 function BarraNavigazione() {
   const [showLogin, setShowLogin] = useState(false);
@@ -142,13 +143,13 @@ function BarraNavigazione() {
 
   return (
     <Navbar expand="lg" className="bg-white">
-      <Container>
-        <Navbar.Brand href="/">
+      <Container className="d-flex">
+        <Navbar.Brand href="/" className="m-0 p-0">
           <img src={Logo} alt="logo" className="logo_cashuboli" />
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="me-auto">
+          <Nav className="text-end">
             <Link to="/" className="nav-link">
               Home
             </Link>
@@ -188,14 +189,21 @@ function BarraNavigazione() {
                 </Dropdown.Menu>
               </Dropdown>
             ) : (
-              <>
-                <Button onClick={handleShowLogin} className="ml-auto">
-                  Login
-                </Button>
-                <Button onClick={handleShowRegister} className="ml-auto ms-2">
-                  Registrati
-                </Button>
-              </>
+              <div className="row text-end">
+                {" "}
+                <Col xs={12} md={6} lg={6} className="mb-2">
+                  {" "}
+                  <Button onClick={handleShowLogin} className="navbar_button ml-auto">
+                    Login
+                  </Button>
+                </Col>
+                <Col xs={12} md={6} lg={6}>
+                  {" "}
+                  <Button onClick={handleShowRegister} className="navbar_button ml-auto">
+                    Registrati
+                  </Button>
+                </Col>
+              </div>
             )}
           </Nav>
         </Navbar.Collapse>

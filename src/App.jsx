@@ -10,7 +10,6 @@ import ChiSiamo from "./components/ChiSiamo/ChiSiamo";
 import Bici from "./components/Bici/Bici";
 import TourMasserie from "./components/Tour/TourMasserie";
 import TourBooking from "./components/CalendarioBooking/TourBooking";
-import Return from "./components/Return/Return";
 import AdminDashboard from "./components/AdminDashboard/AdminDashboard";
 import AreaUtente from "./components/AreaUtente/AreaUtente";
 import "animate.css";
@@ -27,7 +26,6 @@ function App() {
           <Route path="/bici" element={<Bici />} />
           <Route path="/tourmasserie" element={<TourMasserie />} />
           <Route path="/tourbooking" element={<TourBooking />} />
-          <Route path="/return" element={<Return />} />
           <Route path="/admin-dashboard" element={<AdminDashboard />} />
           <Route path="/area-utente" element={<AreaUtente />} />
         </Routes>

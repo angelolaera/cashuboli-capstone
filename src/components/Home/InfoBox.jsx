@@ -43,7 +43,7 @@ function InfoBox() {
           </div>
         </Col>
       </Row>
-      <Row className="mt-4 justify-content-center">
+      <Row className="justify-content-center">
         <Col xs={12} sm={6} md={4} className="text-center position-relative info-box-col" ref={refGallery}>
           <div className={`info-box ${inViewGallery ? "animate__animated animate__fadeInUp" : ""}`}>
             <img src={Mosaico} alt="Mosaico" className="box-image rounded shadow-lg" />

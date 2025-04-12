@@ -9,3 +9,11 @@
   font-weight: 400;
   font-style: normal;
 }
+
+.navbar_button {
+  width: 100px;
+}
+
+/* Media query per schermi piccoli (es., telefoni) */
+@media (max-width: 767px) {
+}

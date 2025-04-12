@@ -6,5 +6,18 @@
   font-family: "Sanchez", serif;
   font-weight: 400;
   font-style: normal;
-  margin: 0;
+  margin-bottom: 0;
+}
+
+/* Stili per evitare il wrapping indesiderato del testo */
+.navbar-brand p {
+  white-space: nowrap;
+}
+
+/* Media query per schermi piccoli (es., telefoni) */
+@media (max-width: 767px) {
+  .navbar-brand {
+    justify-content: center; /* Centra il contenuto */
+    text-align: center; /* Allinea il testo al centro */
+  }
 }
